@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Day ✨</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/theme.css">
+
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<meta property="og:title" content="Our Day 💗">
+<meta property="og:description" content="หมูอ้วน × หมูจิ๋ว">
+<meta property="og:image" content="assets/og.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff5e9a">
+
+
+<style>
+  body{ overflow:hidden; }
+
+  .heart-bg {
+    position: fixed;
+    color: rgba(255, 107, 149, 0.18);
+    font-size: 2rem;
+    user-select: none;
+    pointer-events: none;
+    animation: float-up 10s linear infinite;
+    z-index: 0;
+  }
+  @keyframes float-up {
+    0% { transform: translateY(110vh) scale(.6) rotate(0deg); opacity: 0; }
+    20% { opacity: .9; }
+    100% { transform: translateY(-10vh) scale(1.25) rotate(360deg); opacity: 0; }
+  }
+
+  .gate-shell {
+    width: min(520px, 100%);
+    padding: 0 14px;
+    z-index: 2;
+  }
+  .gate-card {
+    border-radius: 34px;
+    padding: 26px 22px 22px;
+  }
+  .gate-title {
+    text-align:center;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: var(--pink-1);
+    margin: 8px 0 6px;
+  }
+  .gate-sub {
+    text-align:center;
+    color: rgba(255,94,154,.75);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .who {
+    text-align:center;
+    font-weight: 800;
+    color: rgba(255,94,154,.90);
+    margin-bottom: 10px;
+  }
+
+  .auth-row {
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 10px 0 8px;
+  }
+  .auth-row .btn{ min-width: 190px; }
+
+  .email-row {
+    display:flex;
+    gap: 10px;
+    align-items:center;
+    margin-top: 10px;
+  }
+  .email-row input {
+    flex:1;
+    padding: 12px 14px;
+    border-radius: 16px;
+    border: 1px solid var(--stroke);
+    outline:none;
+    font-family: inherit;
+  }
+  .email-row input:focus {
+    border-color: rgba(255,94,154,.45);
+    box-shadow: 0 0 0 4px rgba(255,94,154,.12);
+  }
+
+  .status {
+    min-height: 22px;
+    text-align:center;
+    color: rgba(26,37,47,.65);
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  /* Gate boxes like reference */
+  .code-row {
+    display:flex;
+    gap: 10px;
+    justify-content:center;
+    margin: 16px 0 10px;
+  }
+  .code-box {
+    width: 54px;
+    height: 62px;
+    border-radius: 16px;
+    border: 2px solid rgba(255,94,154,.18);
+    background: rgba(255,255,255,.9);
+    text-align:center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--pink-1);
+    outline:none;
+  }
+  .code-box:focus {
+    border-color: rgba(255,94,154,.6);
+    box-shadow: 0 0 0 5px rgba(255,94,154,.12);
+  }
+  .gate-actions {
+    display:flex;
+    justify-content:center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  #gateMsg {
+    min-height: 24px;
+    text-align:center;
+    font-weight: 800;
+    margin-top: 8px;
+    color: rgba(255,71,87,.95);
+  }
+  #gateMsg.ok{ color: rgba(46, 204, 113, .95); }
+  .gate-card.shake{ animation: shake .4s cubic-bezier(.36,.07,.19,.97) both; }
+  @keyframes shake {
+    10%,90%{ transform: translate3d(-1px,0,0); }
+    20%,80%{ transform: translate3d(2px,0,0); }
+    30%,50%,70%{ transform: translate3d(-4px,0,0); }
+    40%,60%{ transform: translate3d(4px,0,0); }
+  }
+
+  @media (max-width: 480px){
+    .code-box{ width: 46px; height: 58px; font-size: 1.6rem; border-radius: 14px; }
+    .auth-row .btn{ width: 100%; }
+    .email-row{ flex-direction: column; }
+    .email-row input{ width:100%; }
+  }
+</style>
+</head>
+<body data-page="gate">
+  <!-- floating hearts -->
+  <div class="heart-bg" style="left:10%;animation-duration:9s;">❤</div>
+  <div class="heart-bg" style="left:28%;animation-duration:12s;animation-delay:1s;font-size:1.4rem;">💕</div>
+  <div class="heart-bg" style="left:54%;animation-duration:10s;animation-delay:2s;">💗</div>
+  <div class="heart-bg" style="left:78%;animation-duration:14s;animation-delay:3s;font-size:1.2rem;">💖</div>
+  <div class="heart-bg" style="left:90%;animation-duration:11s;animation-delay:4s;">❤</div>
+
+  <div id="pageFade"></div>
+
+  <div class="gate-shell">
+    <div class="gate-card glass">
+      <div class="gate-title">Our Day ✨</div>
+      <div class="gate-sub">ล็อกอินก่อน แล้วค่อยใส่รหัสเข้าเว็บ 💗</div>
+
+      <div class="who" id="who">กำลังเช็กสถานะ...</div>
+
+      <!-- AUTH -->
+      <div id="authWrap">
+        <div class="auth-row">
+          <button class="btn btn-primary" id="btnGoogle">Continue with Google</button>
+        </div>
+
+        <div class="email-row">
+          <input id="email" type="email" placeholder="Email สำหรับรับลิงก์เข้าใช้งาน" autocomplete="email">
+          <button class="btn btn-soft" id="btnEmail" type="button">Send Link</button>
+        </div>
+
+        <div class="status" id="status"></div>
+      </div>
+
+      <!-- GATE -->
+      <div id="gateWrap" style="display:none;">
+        <div class="code-row" id="gatePad">
+          <input class="code-box" inputmode="numeric" autocomplete="one-time-code" maxlength="1">
+          <input class="code-box" inputmode="numeric" maxlength="1">
+          <input class="code-box" inputmode="numeric" maxlength="1">
+          <input class="code-box" inputmode="numeric" maxlength="1">
+          <input class="code-box" inputmode="numeric" maxlength="1">
+          <input class="code-box" inputmode="numeric" maxlength="1">
+        </div>
+
+        <div id="gateMsg"></div>
+
+        <div class="gate-actions">
+          <button class="btn btn-soft" id="gateClear" type="button">ล้าง</button>
+          <button class="btn btn-soft" id="btnLogout" type="button" style="display:none;">ออกจากระบบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="assets/index.js"></script>
+  <script src="assets/gate.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
