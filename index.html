@@ -14,7 +14,6 @@
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#ff5e9a">
 
-
 <style>
   body{ overflow:hidden; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
 
@@ -33,8 +32,8 @@
     100% { transform: translateY(-10vh) scale(1.25) rotate(360deg); opacity: 0; }
   }
 
-  .gate-shell { margin: 0 auto;
-
+  .gate-shell {
+    margin: 0 auto;
     width: min(520px, 100%);
     padding: 0 14px;
     z-index: 2;
@@ -56,21 +55,6 @@
     font-weight: 700;
     margin-bottom: 16px;
   }
-  .gate-hint{
-  text-align:center;
-  margin-top: -6px;
-  margin-bottom: 12px;
-  font-weight: 700;
-  color: rgba(255, 94, 154, .85);
-}
-.gate-hint small{
-  font-weight: 800;
-  color: rgba(255, 94, 154, .95);
-  background: rgba(255,255,255,.55);
-  padding: 2px 10px;
-  border-radius: 999px;
-}
-
 
   .who {
     text-align:center;
@@ -115,12 +99,21 @@
     margin-top: 10px;
   }
 
+  /* Gate hint (show only after login via JS) */
+  .gate-hint {
+    text-align:center;
+    font-weight: 800;
+    color: rgba(255,94,154,.88);
+    margin: 4px 0 12px;
+    line-height: 1.35;
+  }
+
   /* Gate boxes like reference */
   .code-row {
     display:flex;
     gap: 10px;
     justify-content:center;
-    margin: 16px 0 10px;
+    margin: 10px 0 10px;
   }
   .code-box {
     width: 54px;
@@ -138,12 +131,14 @@
     border-color: rgba(255,94,154,.6);
     box-shadow: 0 0 0 5px rgba(255,94,154,.12);
   }
+
   .gate-actions {
     display:flex;
     justify-content:center;
     gap: 10px;
     margin-top: 10px;
   }
+
   #gateMsg {
     min-height: 24px;
     text-align:center;
@@ -152,6 +147,7 @@
     color: rgba(255,71,87,.95);
   }
   #gateMsg.ok{ color: rgba(46, 204, 113, .95); }
+
   .gate-card.shake{ animation: shake .4s cubic-bezier(.36,.07,.19,.97) both; }
   @keyframes shake {
     10%,90%{ transform: translate3d(-1px,0,0); }
@@ -168,6 +164,7 @@
   }
 </style>
 </head>
+
 <body data-page="gate">
   <!-- floating hearts -->
   <div class="heart-bg" style="left:10%;animation-duration:9s;">❤</div>
@@ -179,15 +176,13 @@
   <div id="pageFade"></div>
 
   <div class="gate-shell">
-    <div class="gate-card glass">
+    <div class="gate-card glass" id="gateCard">
       <div class="gate-title">Our Day ✨</div>
       <div class="gate-sub">ล็อกอินก่อน แล้วค่อยใส่รหัสเข้าเว็บ 💗</div>
-      <div class="gate-hint">รหัสคือ “วันครบรอบ” รูปแบบ <small>DDMMYY</small></div>
-
 
       <div class="who" id="who">กำลังเช็กสถานะ...</div>
 
-      <!-- AUTH -->
+      <!-- AUTH (ก่อนล็อกอิน) -->
       <div id="authWrap">
         <div class="auth-row">
           <button class="btn btn-primary" id="btnGoogle">Continue with Google</button>
@@ -201,8 +196,13 @@
         <div class="status" id="status"></div>
       </div>
 
-      <!-- GATE -->
+      <!-- GATE (หลังล็อกอินแล้ว) -->
       <div id="gateWrap" style="display:none;">
+        <!-- ✅ ข้อความนี้จะแสดงหลังล็อกอินเท่านั้น -->
+        <div class="gate-hint" id="gateHint" style="display:none;">
+          รหัสคือ “วันครบรอบ” รูปแบบ <b>DDMMYY</b>
+        </div>
+
         <div class="code-row" id="gatePad">
           <input class="code-box" inputmode="numeric" autocomplete="one-time-code" maxlength="1">
           <input class="code-box" inputmode="numeric" maxlength="1">
