@@ -6,7 +6,7 @@ const ROLE_BY_EMAIL = {
   "pompam@example.com": { id:"pompam", name:"หมูจิ๋ว (พอมแพม)" },
 };
 
-const GATE_CODE = "131024"; // 6 หลัก
+const GATE_CODE = "131024"; // 6 หลัก (DDMMYY)
 
 const ui = {
   authWrap: document.getElementById("authWrap"),
@@ -17,6 +17,7 @@ const ui = {
   btnGoogle: document.getElementById("btnGoogle"),
   btnEmail: document.getElementById("btnEmail"),
   btnLogout: document.getElementById("btnLogout"),
+  gateHint: document.getElementById("gateHint"),
 };
 
 function setStatus(msg){ ui.status.textContent = msg || ""; }
@@ -30,35 +31,49 @@ async function refreshUI(){
   const { data } = await supabase.auth.getSession();
   const session = data.session;
 
+  // ===== NOT LOGGED IN =====
   if (!session){
     ui.authWrap.style.display = "block";
     ui.gateWrap.style.display = "none";
     ui.btnLogout.style.display = "none";
     ui.who.textContent = "ยังไม่ได้ล็อกอิน";
+    if (ui.gateHint) ui.gateHint.style.display = "none"; // ✅ ซ่อนข้อความรหัส
     return;
   }
 
+  // ===== LOGGED IN =====
   const role = getRole(session);
   ui.who.textContent = `สวัสดี ${role.name} 💗`;
   ui.btnLogout.style.display = "inline-flex";
 
-  // If gate already passed for this user (sessionStorage) -> go main
+  // If gate already passed for this user -> go main
   const passedKey = `gate_passed_${session.user.id}`;
   if (sessionStorage.getItem(passedKey) === "true"){
     window.location.href = "main.html";
     return;
   }
 
+  // Show gate UI
   ui.authWrap.style.display = "none";
   ui.gateWrap.style.display = "block";
-  window.__GATE__ = { sessionUserId: session.user.id, passedKey, gateCode: GATE_CODE };
+
+  // ✅ โชว์ข้อความรหัสหลังล็อกอินเท่านั้น
+  if (ui.gateHint) ui.gateHint.style.display = "block";
+
+  window.__GATE__ = {
+    sessionUserId: session.user.id,
+    passedKey,
+    gateCode: GATE_CODE
+  };
 }
 
 async function signInGoogle(){
   setStatus("กำลังเปิด Google Login...");
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: window.location.origin + window.location.pathname.replace(/[^\/]+$/, "index.html") }
+    options: {
+      redirectTo: window.location.origin + window.location.pathname.replace(/[^\/]+$/, "index.html")
+    }
   });
   if (error) setStatus("Login ไม่สำเร็จ: " + error.message);
 }
@@ -69,7 +84,9 @@ async function signInEmail(){
   setStatus("กำลังส่งลิงก์เข้าใช้งานไปที่อีเมล...");
   const { error } = await supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.origin + window.location.pathname.replace(/[^\/]+$/, "index.html") }
+    options: {
+      emailRedirectTo: window.location.origin + window.location.pathname.replace(/[^\/]+$/, "index.html")
+    }
   });
   if (error) setStatus("ส่งลิงก์ไม่สำเร็จ: " + error.message);
   else setStatus("เช็กอีเมลแล้วกดลิงก์เพื่อเข้าเว็บ 💌");
@@ -81,9 +98,9 @@ async function logout(){
   await refreshUI();
 }
 
-ui.btnGoogle.addEventListener("click", signInGoogle);
-ui.btnEmail.addEventListener("click", signInEmail);
-ui.btnLogout.addEventListener("click", logout);
+ui.btnGoogle?.addEventListener("click", signInGoogle);
+ui.btnEmail?.addEventListener("click", signInEmail);
+ui.btnLogout?.addEventListener("click", logout);
 
 supabase.auth.onAuthStateChange((_event, _session) => {
   refreshUI();
