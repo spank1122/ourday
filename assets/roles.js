@@ -6,6 +6,10 @@ export const ROLE_MAP = {
 };
 
 export function getProfileByEmail(email) {
-  if (!email) return null;
-  return ROLE_MAP[email.toLowerCase()] || { role: "ผู้ใช้", name: email };
+  const e = (email || "").toLowerCase().trim();
+
+  if (e === "spank11122spank@gmail.com") return { id: "game", name: "หมูอ้วน (เกม)" };
+  if (e === "แฟน@gmail.com") return { id: "pompam", name: "หมูจิ๋ว (พอมแพม)" };
+
+  return null;
 }
