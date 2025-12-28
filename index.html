@@ -16,7 +16,7 @@
 
 
 <style>
-  body{ overflow:hidden; }
+  body{ overflow:hidden; display:flex; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
 
   .heart-bg {
     position: fixed;
@@ -33,7 +33,8 @@
     100% { transform: translateY(-10vh) scale(1.25) rotate(360deg); opacity: 0; }
   }
 
-  .gate-shell {
+  .gate-shell { margin: 0 auto;
+
     width: min(520px, 100%);
     padding: 0 14px;
     z-index: 2;
