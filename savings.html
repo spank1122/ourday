@@ -1,25 +1,156 @@
-<!doctype html><html lang="th"><head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Our Day - Savings</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/theme.css">
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Savings 💗</title>
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{
+      background: linear-gradient(135deg, #ffe6ee 0%, #fff0f7 50%, #ffe6ee 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 18px;
+    }
+    .wrap{ width:min(980px,100%); margin:0 auto; position:relative; z-index:2; }
+    .page-title{
+      text-align:center; color:var(--pink-1); font-weight:1000;
+      font-size:2.2rem; margin:8px 0 6px;
+      text-shadow:0 2px 15px rgba(255,107,149,.22);
+    }
+    .page-sub{ text-align:center; color:rgba(255,94,154,.70); font-weight:800; margin-bottom:18px; }
 
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<meta property="og:title" content="Our Day 💗">
-<meta property="og:description" content="หมูอ้วน × หมูจิ๋ว">
-<meta property="og:image" content="assets/og.png">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#ff5e9a">
+    .grid{
+      display:grid; gap:12px;
+      grid-template-columns: 1.1fr .9fr;
+    }
+    @media(max-width:880px){ .grid{ grid-template-columns:1fr; } }
 
+    .card{ border-radius:28px; padding:18px; }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:end; }
+    .field{ flex:1; min-width:200px; }
+    .label{ color:rgba(255,94,154,.85); font-weight:900; margin:0 0 6px; }
+    input, select{
+      width:100%; padding:12px 14px; border-radius:16px; border:1px solid var(--stroke);
+      outline:none; font-family:inherit; background:rgba(255,255,255,.92);
+    }
+    input:focus, select:focus{ border-color:rgba(255,94,154,.55); box-shadow:0 0 0 5px rgba(255,94,154,.12); }
 
-</head><body>
-<div id="appNav"></div><div id="pageFade"></div>
-<div class="container">
-  <div class="glass" style="padding:22px;border-radius:var(--radius-lg);">
-    <h1 style="margin:0 0 8px;color:var(--pink-1);">Savings</h1>
-    <p style="margin:0;color:var(--muted);">หน้านี้เป็น placeholder เดี๋ยวเราทำระบบเก็บเงินต่อในขั้นถัดไป 💗</p>
+    .btn{
+      border:0; border-radius:16px; padding:12px 16px; cursor:pointer;
+      font-weight:1000; font-family:inherit; transition:.2s ease;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    }
+    .btn-primary{
+      background: linear-gradient(135deg, #ff5e9a 0%, #ff8ab9 100%);
+      color:#fff; box-shadow:0 14px 35px rgba(255,107,149,.25);
+    }
+    .btn-soft{
+      background: rgba(255, 107, 149, 0.10);
+      color: var(--pink-1);
+      border: 1px solid rgba(255, 107, 149, 0.18);
+    }
+
+    .kpi{
+      display:grid; gap:10px;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top:10px;
+    }
+    @media(max-width:700px){ .kpi{ grid-template-columns:1fr; } }
+    .kpi .box{
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(255,107,149,.16);
+      border-radius: 22px;
+      padding: 14px;
+    }
+    .kpi .t{ color:rgba(26,37,47,.60); font-weight:900; }
+    .kpi .v{ margin-top:6px; color:rgba(255,94,154,.95); font-weight:1000; font-size:1.35rem; }
+
+    .list{ margin-top:12px; display:grid; gap:10px; }
+    .item{
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(255,107,149,.16);
+      border-radius: 22px;
+      padding: 14px;
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .item .left{ font-weight:1000; color:rgba(255,94,154,.92); }
+    .item .right{ font-weight:1000; color:rgba(26,37,47,.65); }
+    .msg{
+      margin-top:10px; text-align:center; font-weight:1000;
+      color: rgba(255,71,87,.95); min-height: 20px;
+    }
+    .msg.ok{ color: rgba(46,204,113,.95); }
+  </style>
+</head>
+
+<body>
+  <div id="appNav"></div>
+  <div id="pageFade"></div>
+
+  <div class="wrap">
+    <h1 class="page-title">💰 เงินออมรวมของเรา</h1>
+    <div class="page-sub">ดูยอดรวมของทั้งคู่ + แยกตามคน + ยังขาดอีกเท่าไหร่เพื่อถึงเป้าหมาย</div>
+
+    <div class="grid">
+      <div class="card glass">
+        <div class="row">
+          <div class="field">
+            <div class="label">เลือก Goal</div>
+            <select id="goalSelect"></select>
+          </div>
+        </div>
+
+        <div class="kpi">
+          <div class="box">
+            <div class="t">ยอดเป้าหมาย</div>
+            <div class="v" id="kTarget">-</div>
+          </div>
+          <div class="box">
+            <div class="t">ออมแล้วรวม</div>
+            <div class="v" id="kSaved">-</div>
+          </div>
+          <div class="box">
+            <div class="t">ยังขาดอีก</div>
+            <div class="v" id="kRemain">-</div>
+          </div>
+        </div>
+
+        <div class="list" id="byPerson"></div>
+      </div>
+
+      <div class="card glass">
+        <div class="row">
+          <div class="field">
+            <div class="label">เพิ่มรายการออม (ของฉัน)</div>
+            <input id="amt" type="number" min="0" step="1" placeholder="จำนวนเงิน (บาท)" />
+          </div>
+          <div class="field">
+            <div class="label">วันที่</div>
+            <input id="date" type="date" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <div class="field">
+            <div class="label">โน้ต (ไม่บังคับ)</div>
+            <input id="note" placeholder="เช่น โอนเข้ากองกลาง 💗" />
+          </div>
+          <div class="field" style="min-width:220px;">
+            <button class="btn btn-primary" id="btnAdd">+ บันทึก</button>
+            <div class="msg" id="msg"></div>
+          </div>
+        </div>
+
+        <div class="list" id="recent"></div>
+      </div>
+    </div>
   </div>
-</div>
-<script src="assets/app.js"></script>
-</body></html>
+
+  <script type="module" src="assets/savings.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
