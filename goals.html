@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Goals ✨</title>
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body{
+      background: linear-gradient(135deg, #ffe6ee 0%, #fff0f7 50%, #ffe6ee 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 18px;
+    }
+
+    .wrap{
+      width: min(980px, 100%);
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .page-title{
+      text-align:center;
+      color: var(--pink-1);
+      font-weight: 900;
+      font-size: 2.2rem;
+      margin: 8px 0 6px;
+      text-shadow: 0 2px 15px rgba(255, 107, 149, 0.22);
+    }
+    .page-sub{
+      text-align:center;
+      color: rgba(255,94,154,.70);
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .card{
+      border-radius: 28px;
+      padding: 22px;
+    }
+
+    .row{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+    .field{
+      flex: 1;
+      min-width: 210px;
+    }
+    .label{
+      color: rgba(255,94,154,.85);
+      font-weight: 800;
+      margin: 0 0 6px;
+      font-size: .95rem;
+    }
+    input, textarea, select{
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--stroke);
+      outline: none;
+      font-family: inherit;
+      background: rgba(255,255,255,.92);
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color: rgba(255,94,154,.55);
+      box-shadow: 0 0 0 5px rgba(255,94,154,.12);
+    }
+    textarea{ min-height: 92px; resize: vertical; }
+
+    .btn{
+      border: 0;
+      border-radius: 16px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: 900;
+      font-family: inherit;
+      transition: .2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary{
+      background: linear-gradient(135deg, #ff5e9a 0%, #ff8ab9 100%);
+      color: #fff;
+      box-shadow: 0 14px 35px rgba(255, 107, 149, 0.25);
+    }
+    .btn-soft{
+      background: rgba(255, 107, 149, 0.10);
+      color: var(--pink-1);
+      border: 1px solid rgba(255, 107, 149, 0.18);
+    }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .list{
+      display:grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .goal-item{
+      border-radius: 24px;
+      padding: 16px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(255, 107, 149, 0.16);
+    }
+    .goal-top{
+      display:flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .goal-title{
+      font-weight: 1000;
+      color: rgba(255,94,154,.95);
+      font-size: 1.05rem;
+    }
+    .pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .8rem;
+      border: 1px solid rgba(255, 107, 149, 0.18);
+      background: rgba(255, 107, 149, 0.08);
+      color: rgba(255,94,154,.95);
+    }
+    .pill.success{ background: rgba(46,204,113,.14); color: rgba(33,150,83,1); border-color: rgba(46,204,113,.25); }
+    .pill.failed{ background: rgba(255,71,87,.12); color: rgba(220,20,60,1); border-color: rgba(255,71,87,.25); }
+
+    .goal-meta{
+      margin-top: 10px;
+      color: rgba(26,37,47,.65);
+      font-weight: 700;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .goal-actions{
+      margin-top: 12px;
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .msg{
+      margin-top: 10px;
+      text-align:center;
+      font-weight: 900;
+      color: rgba(255,71,87,.95);
+      min-height: 20px;
+    }
+    .msg.ok{ color: rgba(46,204,113,.95); }
+  </style>
+</head>
+
+<body>
+  <div id="appNav"></div>
+  <div id="pageFade"></div>
+
+  <div class="wrap">
+    <h1 class="page-title">🎯 Goals ของเรา</h1>
+    <div class="page-sub">ตั้งเป้าหมายร่วมของ “เกม + พอมแพม” แล้วติ๊กว่า สำเร็จ/ไม่สำเร็จ ได้</div>
+
+    <div class="card glass">
+      <div class="row">
+        <div class="field">
+          <div class="label">ชื่อเป้าหมาย</div>
+          <input id="gTitle" placeholder="เช่น เที่ยวญี่ปุ่นด้วยกัน ✈️" />
+        </div>
+        <div class="field">
+          <div class="label">ยอดเป้าหมาย (บาท)</div>
+          <input id="gTarget" type="number" min="0" step="1" placeholder="เช่น 50000" />
+        </div>
+        <div class="field">
+          <div class="label">วันครบกำหนด</div>
+          <input id="gDate" type="date" />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:12px;">
+        <div class="field" style="flex:2; min-width:280px;">
+          <div class="label">โน้ต (ไม่บังคับ)</div>
+          <textarea id="gNote" placeholder="เช่น เก็บให้ทันก่อนวันหยุดยาว 💗"></textarea>
+        </div>
+        <div class="field" style="min-width:220px;">
+          <button class="btn btn-primary" id="btnCreate">+ เพิ่ม Goal</button>
+          <div class="msg" id="msg"></div>
+        </div>
+      </div>
+
+      <div class="list" id="goalList"></div>
+    </div>
+  </div>
+
+  <script type="module" src="assets/goals.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
