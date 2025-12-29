@@ -3,6 +3,7 @@
   --pink-1:#ff5e9a;
   --pink-2:#ff8ab9;
   --pink-3:#ffb3d9;
+
   --bg-1:#ffe6ee;
   --bg-2:#fff0f7;
   --bg-3:#ffd1e0;
@@ -12,157 +13,174 @@
   --stroke: rgba(255,107,149,.18);
   --shadow: rgba(255,107,149,.22);
 
-  --text: #1A252F;
+  --text:#1A252F;
   --muted: rgba(26,37,47,.62);
 
   --radius-lg: 28px;
   --radius-md: 18px;
 
+  /* 🔑 สำคัญมาก: ความสูง navbar */
   --nav-h: 64px;
 }
 
 *{ box-sizing:border-box; }
 html,body{ height:100%; }
+
 body{
   margin:0;
-  font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  color: var(--text);
-  background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-1) 100%);
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--text);
+  background: linear-gradient(135deg,var(--bg-1),var(--bg-2),var(--bg-1));
   overflow-x:hidden;
 }
 
-/* ===== shared helpers ===== */
+/* ===== layout ===== */
 .container{
-  width: min(980px, 100%);
-  margin: 0 auto;
-  padding: calc(var(--nav-h) + 28px) 18px 40px;
-  position: relative;
-  z-index: 2;
+  width:min(980px,100%);
+  margin:0 auto;
+  padding: calc(var(--nav-h) + 32px) 18px 48px;
+  position:relative;
+  z-index:2;
 }
+
+/* กัน anchor / heading โดน nav บัง */
+[id]{ scroll-margin-top: calc(var(--nav-h) + 24px); }
+
+/* ===== glass ===== */
 .glass{
-  background: var(--glass);
-  border: 1px solid var(--stroke);
-  box-shadow: 0 18px 60px rgba(255,107,149,.18);
+  background:var(--glass);
+  border:1px solid var(--stroke);
+  box-shadow:0 18px 60px rgba(255,107,149,.18);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
+
+/* ===== buttons ===== */
 .btn{
-  appearance:none;
   border:0;
   cursor:pointer;
-  font-family: inherit;
-  font-weight: 700;
-  border-radius: 999px;
-  padding: 10px 16px;
-  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  font-family:inherit;
+  font-weight:700;
+  border-radius:999px;
+  padding:10px 16px;
+  transition:.2s;
 }
+
 .btn-primary{
   color:#fff;
-  background: linear-gradient(135deg, var(--pink-1) 0%, var(--pink-2) 100%);
-  box-shadow: 0 12px 26px rgba(255,94,154,.22);
+  background:linear-gradient(135deg,var(--pink-1),var(--pink-2));
+  box-shadow:0 12px 26px rgba(255,94,154,.22);
 }
-.btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 16px 34px rgba(255,94,154,.28); }
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 16px 34px rgba(255,94,154,.28);
+}
+
 .btn-soft{
-  color: var(--pink-1);
-  background: rgba(255,94,154,.10);
+  color:var(--pink-1);
+  background:rgba(255,94,154,.10);
   border:1px solid rgba(255,94,154,.18);
 }
-.btn-soft:hover{ transform: translateY(-2px); }
+.btn-soft:hover{ transform:translateY(-2px); }
 
-/* ===== Navbar (glass, same on every page except gate) ===== */
+/* ===== Navbar ===== */
 #appNav{
-  position: fixed;
-  top: 18px;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  padding: 0 14px;
+  position:fixed;
+  top:18px;
+  left:0;
+  right:0;
+  z-index:50;
+  padding:0 14px;
 }
+
 .navbar{
-  height: var(--nav-h);
+  height:var(--nav-h);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap: 14px;
-  border-radius: 999px;
-  padding: 10px 12px 10px 16px;
+  gap:14px;
+  padding:10px 14px;
+  border-radius:999px;
 }
+
 .nav-left{
   display:flex;
   align-items:center;
-  gap: 10px;
-  min-width: 160px;
+  gap:10px;
 }
+
 .brand-dot{
-  width: 10px; height: 10px; border-radius:50%;
-  background: var(--pink-1);
-  box-shadow: 0 0 0 6px rgba(255,94,154,.12);
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:var(--pink-1);
+  box-shadow:0 0 0 6px rgba(255,94,154,.12);
 }
+
 .brand{
-  font-weight: 800;
-  color: var(--pink-1);
-  letter-spacing: .2px;
+  font-weight:800;
+  color:var(--pink-1);
 }
+
 .nav-links{
   display:flex;
-  align-items:center;
-  gap: 12px;
-  padding-right: 8px;
+  gap:10px;
 }
+
 .nav-links a{
   text-decoration:none;
-  color: rgba(255,94,154,.85);
-  font-weight: 800;
-  padding: 10px 14px;
-  border-radius: 999px;
-  transition: background .2s ease, transform .2s ease;
+  color:rgba(255,94,154,.85);
+  font-weight:800;
+  padding:10px 14px;
+  border-radius:999px;
+  transition:.2s;
 }
+
 .nav-links a:hover{
-  background: rgba(255,94,154,.10);
-  transform: translateY(-1px);
+  background:rgba(255,94,154,.10);
 }
+
 .nav-links a.active{
   color:#fff;
-  background: linear-gradient(135deg, var(--pink-1), var(--pink-2));
-  box-shadow: 0 10px 26px rgba(255,94,154,.20);
+  background:linear-gradient(135deg,var(--pink-1),var(--pink-2));
+  box-shadow:0 10px 26px rgba(255,94,154,.20);
 }
 
-/* ===== Page transition (fade) ===== */
+/* ===== page fade ===== */
 #pageFade{
-  position: fixed;
-  inset: 0;
-  background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 60%, var(--bg-1) 100%);
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,var(--bg-1),var(--bg-2),var(--bg-1));
+  opacity:0;
   pointer-events:none;
-  opacity: 0;
-  z-index: 9999;
-  transition: opacity .28s ease;
+  z-index:9999;
+  transition:.28s;
 }
-body.is-leaving #pageFade{ opacity: 1; }
+body.is-leaving #pageFade{ opacity:1; }
 
-/* ===== floating decoration (optional) ===== */
+/* ===== bubbles ===== */
 .bubble{
-  position: fixed;
-  border-radius: 50%;
+  position:fixed;
+  border-radius:50%;
   pointer-events:none;
-  animation: float-down 8s ease-in infinite;
-  z-index: 0;
+  animation:float-down 8s linear infinite;
+  z-index:0;
 }
 .bubble::before{
   content:'';
-  position:absolute; inset:0;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), transparent);
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.85),transparent);
   border-radius:50%;
 }
 @keyframes float-down{
-  0%{ transform: translateY(0) rotate(0deg); opacity: 1; }
-  100%{ transform: translateY(120vh) rotate(360deg); opacity: 0; }
+  0%{ transform:translateY(0) rotate(0); opacity:1; }
+  100%{ transform:translateY(120vh) rotate(360deg); opacity:0; }
 }
 
-/* ===== mobile polish ===== */
-@media (max-width: 640px){
-  :root{ --nav-h: 60px; }
-  .container{ padding-top: calc(var(--nav-h) + 20px); }
-  .nav-left{ min-width: auto; }
-  .nav-links{ gap: 6px; }
-  .nav-links a{ padding: 9px 10px; font-size: .95rem; }
+/* ===== mobile ===== */
+@media (max-width:640px){
+  :root{ --nav-h:60px; }
+  .container{ padding-top: calc(var(--nav-h) + 24px); }
+  .nav-links a{ padding:9px 10px; font-size:.95rem; }
 }
