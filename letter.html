@@ -6,59 +6,26 @@
   <title>Letter 💌</title>
 
   <link rel="stylesheet" href="assets/theme.css">
-
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<meta property="og:title" content="Our Day 💗">
-<meta property="og:description" content="หมูอ้วน × หมูจิ๋ว">
-<meta property="og:image" content="assets/og.png">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#ff5e9a">
-<link rel="icon" href="assets/favicon.png" type="image/png" />
-  <meta property="og:title" content="Letter 💌" />
-  <meta property="og:description" content="ความในใจเล็กๆ ที่อยากบอก" />
-  <meta property="og:image" content="assets/og-image.png" />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
-
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <meta property="og:title" content="Our Day 💗">
+  <meta property="og:description" content="หมูอ้วน × หมูจิ๋ว">
+  <meta property="og:image" content="assets/og.png">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#ff5e9a">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --pink-1:#ff5e9a; --pink-2:#ff8ab9; --bg-1:#ffe6ee; --bg-2:#fff0f7;
-      --stroke:rgba(255,107,149,.18); --shadow:rgba(255,107,149,.22);
-    }
     *{margin:0;padding:0;box-sizing:border-box}
     body{
       font-family:'Poppins',sans-serif;
       min-height:100vh;
-      background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-1) 100%);
+      background: linear-gradient(135deg, #ffe6ee 0%, #fff0f7 50%, #ffe6ee 100%);
       padding:90px 20px 28px;
-      opacity:0; transition: opacity .45s ease;
     }
-    body.page-ready{ opacity:1; }
-
-    .nav{
-      position:fixed; top:18px; left:50%; transform:translateX(-50%);
-      width:min(980px, 92vw);
-      display:flex; justify-content:space-between; align-items:center; gap:12px;
-      padding:10px 14px; border-radius:999px;
-      background:rgba(255,255,255,.58); border:1px solid var(--stroke);
-      box-shadow:0 18px 55px rgba(255,107,149,.14);
-      backdrop-filter: blur(18px); z-index:999;
-    }
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#ff6b95}
-    .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:white;
-      background:linear-gradient(135deg,var(--pink-1),var(--pink-2)); box-shadow:0 10px 22px rgba(255,107,149,.25);}
-    .links{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .nav a{
-      text-decoration:none;color:#ff6b95;font-weight:700;font-size:.92rem;
-      padding:8px 12px;border-radius:999px;transition:.25s ease;background:rgba(255,107,149,.06);
-    }
-    .nav a:hover,.nav a.active{background:linear-gradient(135deg,var(--pink-1),var(--pink-2));color:white;box-shadow:0 12px 28px rgba(255,107,149,.20)}
     .wrap{max-width:920px;margin:0 auto}
     .card{
       background:rgba(255,255,255,.85);
-      border:1px solid var(--stroke);
+      border:1px solid rgba(255,107,149,.18);
       border-radius:26px;
       padding:28px;
       box-shadow:0 20px 60px rgba(255,107,149,.18);
@@ -72,26 +39,12 @@
       line-height:1.8;
       white-space:pre-wrap;
     }
-    @media (max-width:600px){
-      .brand span{display:none}
-      .card{padding:20px}
-    }
   </style>
 </head>
 
 <body>
-<div id="appNav"></div>
-<div id="pageFade"></div>
-
-  <nav class="nav">
-    <div class="brand"><div class="dot">💌</div><span>Love Letter</span></div>
-    <div class="links">
-      <a href="main.html" data-nav>Home</a>
-      <a href="photos.html" data-nav>Photos</a>
-      <a class="active" href="letter.html" data-nav>Letter</a>
-      <a href="gift.html" data-nav>Gift</a>
-    </div>
-  </nav>
+  <div id="appNav"></div>
+  <div id="pageFade"></div>
 
   <div class="wrap">
     <div class="card">
@@ -108,18 +61,6 @@
     </div>
   </div>
 
-  <script>
-    function go(url){
-      document.body.classList.remove('page-ready');
-      setTimeout(()=> location.href = url, 450);
-    }
-    requestAnimationFrame(()=> document.body.classList.add('page-ready'));
-    document.querySelectorAll('a[data-nav]').forEach(a=>{
-      a.addEventListener('click',(e)=>{
-        e.preventDefault(); go(a.getAttribute('href'));
-      });
-    });
-  </script>
   <script src="assets/app.js"></script>
 </body>
 </html>
