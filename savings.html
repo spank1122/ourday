@@ -1,282 +1,105 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Savings 💗</title>
-
-  <link rel="stylesheet" href="assets/theme.css">
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <meta name="theme-color" content="#ff5e9a">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body{ font-family:Poppins,sans-serif; background: linear-gradient(135deg,#ffe6ee 0%,#fff0f7 50%,#ffe6ee 100%); min-height:100vh; padding:20px; }
-    body.page{ padding-top:110px; }
-
-    .wrap{ width:min(1100px, 100%); margin: 0 auto; position:relative; z-index: 5; }
-    .h1{ text-align:center; font-size: 2.6rem; font-weight: 900; color:#ff6b95; text-shadow:0 2px 15px rgba(255,107,149,.2); margin-top: 6px; }
-    .sub{ text-align:center; color:#ff8ab9; font-weight:800; margin-top: 8px; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 22px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
-    }
-
-    .card{
-      background: rgba(255,255,255,.92);
-      border: 2px solid rgba(255,107,149,.12);
-      border-radius: 28px;
-      box-shadow: 0 20px 60px rgba(255,107,149,.14);
-      padding: 18px;
-    }
-    .cardTitle{
-      font-weight: 900;
-      color:#ff6b95;
-      font-size: 1.1rem;
-      margin-bottom: 12px;
-    }
-
-    /* Water Circle */
-    .circleWrap{ display:flex; justify-content:center; margin-top: 6px; }
-    .waterCircle{
-      width: 240px;
-      height: 240px;
-      border-radius: 999px;
-      position:relative;
-      overflow:hidden;
-      border: 2px solid rgba(255,107,149,.18);
-      background: rgba(255,255,255,.9);
-      box-shadow: 0 20px 60px rgba(255,107,149,.18);
-    }
-    .water{
-      position:absolute;
-      left:0; right:0;
-      height: 55%;
-      bottom: 0;
-      background: linear-gradient(180deg, rgba(255,94,154,.35), rgba(255,94,154,.75));
-      transform: translateY(40%);
-      transition: transform .5s ease;
-    }
-    .water::before,
-    .water::after{
-      content:"";
-      position:absolute;
-      left:-35%;
-      width: 170%;
-      height: 170%;
-      top:-120%;
-      border-radius: 40%;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,0) 55%);
-      opacity: .65;
-      animation: wave 7s linear infinite;
-    }
-    .water::after{
-      opacity: .40;
-      animation-duration: 10s;
-      animation-direction: reverse;
-      top:-118%;
-    }
-    @keyframes wave{
-      0%{ transform: rotate(0deg) translateY(0); }
-      100%{ transform: rotate(360deg) translateY(0); }
-    }
-
-    .circleText{
-      position:absolute;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap: 6px;
-      text-align:center;
-      z-index: 2;
-      padding: 10px;
-    }
-    .circleLabel{ font-weight: 900; color:#ff6b95; }
-    .circleValue{ font-weight: 900; font-size: 2rem; color:#333; }
-    .circleSmall{ font-weight: 900; color:#ff8ab9; font-size: .95rem; }
-
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 16px;
-    }
-    @media (max-width: 520px){ .stats{ grid-template-columns: 1fr; } }
-
-    .stat{
-      border-radius: 20px;
-      border: 2px solid rgba(255,107,149,.12);
-      background: rgba(255,107,149,.06);
-      padding: 12px;
-      color:#444;
-      font-weight: 900;
-      min-height: 76px;
-    }
-    .stat .k{ color:#ff6b95; }
-    .stat .v{ margin-top: 8px; font-size: 1.2rem; }
-
-    /* Form */
-    .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
-    .tabBtn{
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,107,149,.18);
-      background: rgba(255,107,149,.08);
-      color:#ff6b95;
-      font-weight: 900;
-      cursor:pointer;
-    }
-    .tabBtn.active{
-      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
-      color:#fff;
-      border-color:#ff5e9a;
-    }
-
-    .row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    @media (max-width: 520px){ .row{ grid-template-columns: 1fr; } }
-
-    .lab{ font-weight:900; color:#ff6b95; margin-bottom:6px; display:block; }
-    .inp, .sel{
-      width:100%;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 2px solid rgba(255,107,149,.16);
-      outline:none;
-      font-family:inherit;
-    }
-    .noteInp{ margin-top: 10px; }
-
-    .btnSave{
-      margin-top: 12px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border:none;
-      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
-      color:#fff;
-      font-weight: 900;
-      cursor:pointer;
-      width: fit-content;
-    }
-
-    .msg{ margin-top: 10px; font-weight: 900; }
-    .msg.ok{ color:#2ecc71; }
-    .msg.err{ color:#ff4757; }
-
-    .list{
-      margin-top: 14px;
-      border-top: 2px dashed rgba(255,107,149,.18);
-      padding-top: 12px;
-    }
-    .item{
-      display:flex; justify-content:space-between; gap: 10px;
-      padding: 10px 12px;
-      border-radius: 18px;
-      border: 2px solid rgba(255,107,149,.12);
-      background: rgba(255,255,255,.7);
-      margin-top: 10px;
-      font-weight: 900;
-      color:#444;
-    }
-    .item small{ color:#ff8ab9; font-weight:900; }
-  </style>
+  <link rel="stylesheet" href="assets/theme.css"/>
+  <link rel="icon" type="image/png" href="assets/favicon.png"/>
+  <meta name="theme-color" content="#ff5e9a"/>
 </head>
-
-<body class="page">
+<body>
   <div id="appNav"></div>
   <div id="pageFade"></div>
 
-  <div class="wrap">
-    <div class="h1">Savings 💗</div>
-    <div class="sub">เงินออมรวม = นับรวมทุก Goal + ออมรวม ✨</div>
+  <div class="page-wrap">
+    <div style="text-align:center; margin-bottom:14px;">
+      <h1 style="margin:0; color:var(--pink-1); font-weight:900; font-size:44px;">Savings 💗</h1>
+      <div style="color:rgba(255,94,154,.70); font-weight:800; margin-top:6px;">
+        เงินออมรวม = นับรวมทุก Goal (การเงิน) ✨
+      </div>
+    </div>
 
-    <div class="grid">
-      <!-- LEFT: Total -->
-      <div class="card">
-        <div class="cardTitle">เงินออมรวม</div>
-
-        <div class="circleWrap">
-          <div class="waterCircle">
-            <div class="water" id="water"></div>
-            <div class="circleText">
-              <div class="circleLabel">เงินออมรวม</div>
-              <div class="circleValue" id="totalSaved">0 ฿</div>
-              <div class="circleSmall" id="totalHint">กำลังโหลด...</div>
-            </div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:18px; align-items:start;"
+         class="s-grid">
+      <!-- LEFT: TOTAL -->
+      <div class="glass" style="border-radius:30px; padding:22px; min-height:420px;">
+        <div class="water-wrap">
+          <div class="water-fill" id="waterFill" style="height:0%;"></div>
+          <div class="water-shine"></div>
+          <div class="water-center">
+            <div class="label">เงินออมรวม</div>
+            <div class="value" id="totalValue">0 ฿</div>
           </div>
         </div>
 
-        <div class="stats">
-          <div class="stat">
-            <div class="k">รวมเป้าหมายการเงิน</div>
-            <div class="v" id="sumTargets">0</div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:10px;">
+          <div class="glass" style="border-radius:16px; padding:12px;">
+            <div style="color:rgba(255,94,154,.9); font-weight:900;">รวมเป้าหมายการเงิน</div>
+            <div style="margin-top:6px; font-weight:900; color:rgba(26,37,47,.75);" id="moneyGoalsCount">0</div>
           </div>
-          <div class="stat">
-            <div class="k">ยอดเป้าหมายรวม (บาท)</div>
-            <div class="v" id="sumTargetAmount">0</div>
+          <div class="glass" style="border-radius:16px; padding:12px;">
+            <div style="color:rgba(255,94,154,.9); font-weight:900;">ยอดเป้าหมายรวม</div>
+            <div style="margin-top:6px; font-weight:900; color:rgba(26,37,47,.75);" id="moneyTargetSum">0</div>
           </div>
-          <div class="stat">
-            <div class="k">ยังขาดรวม (บาท)</div>
-            <div class="v" id="sumRemaining">0</div>
+          <div class="glass" style="border-radius:16px; padding:12px;">
+            <div style="color:rgba(255,94,154,.9); font-weight:900;">ยังขาดรวม</div>
+            <div style="margin-top:6px; font-weight:900; color:rgba(26,37,47,.75);" id="moneyRemaining">0</div>
           </div>
         </div>
+
+        <div style="margin-top:14px; color:rgba(26,37,47,.55); font-weight:800;" id="hint"></div>
       </div>
 
-      <!-- RIGHT: Add Saving -->
-      <div class="card">
-        <div class="cardTitle">เพิ่มรายการออม 💗</div>
+      <!-- RIGHT: ADD SAVING -->
+      <div class="glass" style="border-radius:30px; padding:22px;">
+        <div style="color:var(--pink-1); font-weight:900; font-size:18px;">เพิ่มรายการออม 💗</div>
 
-        <div class="tabs">
-          <button class="tabBtn active" id="tabTotal" type="button">ออมรวม</button>
-          <button class="tabBtn" id="tabGoal" type="button">ออมเข้า Goal (การเงิน)</button>
+        <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+          <button class="btn btn-primary" id="modeTotal">ออมรวม</button>
+          <button class="btn btn-soft" id="modeGoal">ออมเข้า Goal (การเงิน)</button>
         </div>
 
-        <div id="goalPicker" style="display:none;">
-          <label class="lab">เลือก Goal (เฉพาะการเงิน)</label>
-          <select class="sel" id="goalSelect"></select>
+        <div id="goalPickWrap" style="display:none; margin-top:10px;">
+          <label class="form-label">เลือก Goal (เฉพาะการเงิน)</label>
+          <select id="goalSelect" class="form-input"></select>
         </div>
 
-        <div class="row">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:12px;">
           <div>
-            <label class="lab">จำนวนเงิน (บาท)</label>
-            <input class="inp" id="amount" type="number" inputmode="numeric" placeholder="เช่น 100" />
+            <label class="form-label">จำนวนเงิน (บาท)</label>
+            <input id="amount" class="form-input" type="number" placeholder="เช่น 100">
           </div>
           <div>
-            <label class="lab">วันที่</label>
-            <input class="inp" id="date" type="date" />
+            <label class="form-label">วันที่</label>
+            <input id="date" class="form-input" type="date">
           </div>
         </div>
 
-        <div class="noteInp">
-          <label class="lab">โน้ต (ไม่บังคับ)</label>
-          <input class="inp" id="note" placeholder="เช่น โอนเข้ากองกลาง 💗" />
+        <div style="margin-top:10px;">
+          <label class="form-label">โน้ต (ไม่บังคับ)</label>
+          <input id="note" class="form-input" placeholder="เช่น โอนเข้ากองกลาง 💗">
         </div>
 
-        <button class="btnSave" id="btnSave" type="button">+ บันทึก</button>
-        <div class="msg" id="msg"></div>
-
-        <div class="list">
-          <div class="cardTitle" style="margin-bottom:6px;">ประวัติออมล่าสุด</div>
-          <div id="recentList"></div>
+        <div style="margin-top:12px;">
+          <button class="btn btn-primary" id="btnSave">+ บันทึก</button>
         </div>
+
+        <div id="msg" class="status"></div>
+
+        <div style="margin-top:16px; color:rgba(255,94,154,.85); font-weight:900;">ประวัติออมล่าสุด</div>
+        <div id="ledger" style="margin-top:10px; display:flex; flex-direction:column; gap:10px;"></div>
       </div>
     </div>
   </div>
 
-  <script type="module" src="assets/savings.js"></script>
+  <style>
+    @media (max-width: 980px){
+      .s-grid{ grid-template-columns: 1fr !important; }
+    }
+  </style>
+
   <script src="assets/app.js"></script>
+  <script type="module" src="assets/savings-page.js"></script>
 </body>
 </html>
