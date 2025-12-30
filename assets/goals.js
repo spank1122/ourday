@@ -1,181 +1,286 @@
 // assets/goals.js
 import { supabase } from "./supabase.js";
 
-// NOTE: หน้านี้สมมติว่า “ผ่าน gate แล้ว” ถึงเข้ามาได้
-// ถ้ายังไม่ทำ auth-guard เดี๋ยวเราค่อยเพิ่มไฟล์ guard กลางทีหลังได้
-
 const ui = {
-  title: document.getElementById("gTitle"),
-  target: document.getElementById("gTarget"),
-  date: document.getElementById("gDate"),
-  note: document.getElementById("gNote"),
-  btnCreate: document.getElementById("btnCreate"),
-  msg: document.getElementById("msg"),
-  list: document.getElementById("goalList"),
+  grid: document.getElementById("goalsGrid"),
+
+  addModal: document.getElementById("addModal"),
+  btnOpenAdd: document.getElementById("btnOpenAdd"),
+  btnAddSave: document.getElementById("btnAddSave"),
+  addMsg: document.getElementById("addMsg"),
+
+  gTitle: document.getElementById("gTitle"),
+  gType: document.getElementById("gType"),
+  gDue: document.getElementById("gDue"),
+  gTarget: document.getElementById("gTarget"),
+  gNoteShort: document.getElementById("gNoteShort"),
+  gNote: document.getElementById("gNote"),
+  moneyRow: document.getElementById("moneyRow"),
+  typeHint: document.getElementById("typeHint"),
+
+  detailModal: document.getElementById("detailModal"),
+  dTitle: document.getElementById("dTitle"),
+  dMeta: document.getElementById("dMeta"),
+  dNote: document.getElementById("dNote"),
+  detailMsg: document.getElementById("detailMsg"),
+  btnDetailSave: document.getElementById("btnDetailSave"),
 };
 
-function setMsg(text, ok = false){
-  ui.msg.textContent = text || "";
-  ui.msg.classList.toggle("ok", !!ok);
+let session = null;
+let goals = [];
+let selectedGoal = null;
+let selectedStatus = "in_progress";
+
+function msg(el, text, type){
+  if (!text){ el.innerHTML = ""; return; }
+  el.innerHTML = `<div class="${type||"err"}">${text}</div>`;
 }
 
-function fmtMoney(n){
+function moneyRowToggle(){
+  const t = ui.gType.value;
+  if (t === "money"){
+    ui.moneyRow.style.display = "grid";
+    ui.typeHint.textContent = "เลือก “การเงิน” → จะถูกเอาไปใช้ในหน้า Savings ได้";
+  } else {
+    ui.moneyRow.style.display = "none";
+    ui.typeHint.textContent = "ถ้าเลือก “ทั่วไป” → จะไม่ให้เอาไปเลือกออมใน Savings";
+  }
+}
+
+function fmt(n){
   const x = Number(n || 0);
-  return x.toLocaleString("th-TH", { maximumFractionDigits: 0 });
+  return x.toLocaleString("th-TH");
 }
 
-function pill(status){
-  if (status === "success") return `<span class="pill success">สำเร็จ ✅</span>`;
-  if (status === "failed") return `<span class="pill failed">ไม่สำเร็จ 🥺</span>`;
-  return `<span class="pill">กำลังทำ 💗</span>`;
+function badgeText(goal){
+  if (goal.status === "success") return "สำเร็จ ✅";
+  if (goal.status === "failed") return "ไม่สำเร็จ 🥺";
+  return "กำลังทำ 💗";
 }
 
-async function getMe(){
+function typeText(goal){
+  return goal.goal_type === "money" ? "การเงิน" : "ทั่วไป";
+}
+
+function render(){
+  if (!goals.length){
+    ui.grid.innerHTML = `
+      <div class="card" style="cursor:default;">
+        <div class="title">ยังไม่มี Goals เลย</div>
+        <div class="note" style="margin-top:8px;">กดปุ่ม + มุมขวาบนเพื่อเพิ่มเป้าหมายแรกของเรา 💗</div>
+      </div>
+    `;
+    return;
+  }
+
+  ui.grid.innerHTML = goals.map(g => {
+    const due = g.due_date ? `กำหนด: ${g.due_date}` : "ไม่กำหนดวัน";
+    const moneyMeta = (g.goal_type === "money" && g.target_amount != null)
+      ? `<span>🎯 เป้า: ${fmt(g.target_amount)} บาท</span>`
+      : "";
+
+    return `
+      <div class="card" data-id="${g.id}">
+        <div class="row1">
+          <div class="title">${g.title || "(ไม่มีชื่อ)"}</div>
+          <div class="badge">${badgeText(g)}</div>
+        </div>
+        <div class="meta">
+          <span>🧸 ประเภท: ${typeText(g)}</span>
+          <span>📅 ${due}</span>
+          ${moneyMeta}
+        </div>
+        ${g.note ? `<div class="note">📝 ${g.note}</div>` : ""}
+      </div>
+    `;
+  }).join("");
+
+  ui.grid.querySelectorAll(".card[data-id]").forEach(card => {
+    card.addEventListener("click", () => openDetail(card.getAttribute("data-id")));
+  });
+}
+
+async function requireLogin(){
   const { data } = await supabase.auth.getSession();
-  return data?.session?.user || null;
-}
-
-// รวมยอดออมของ goal นี้ (เพื่อโชว์ “ยังขาดอีกเท่าไหร่”)
-async function getSavedSum(goalId){
-  const { data, error } = await supabase
-    .from("savings_ledger")
-    .select("amount")
-    .eq("goal_id", goalId);
-
-  if (error) return 0;
-  return (data || []).reduce((s, r) => s + Number(r.amount || 0), 0);
+  session = data.session;
+  if (!session){
+    window.location.href = "index.html";
+    return false;
+  }
+  return true;
 }
 
 async function loadGoals(){
-  ui.list.innerHTML = "";
+  msg(ui.addMsg, "");
+  msg(ui.detailMsg, "");
 
-  const { data: goals, error } = await supabase
+  const { data, error } = await supabase
     .from("goals")
     .select("*")
+    .order("due_date", { ascending: true, nullsFirst: false })
     .order("created_at", { ascending: false });
 
   if (error){
-    ui.list.innerHTML = `<div class="goal-item">โหลด Goals ไม่ได้: ${error.message}</div>`;
+    msg(ui.addMsg, "โหลด Goals ไม่ได้: " + error.message, "err");
+    goals = [];
+    render();
     return;
   }
 
-  if (!goals?.length){
-    ui.list.innerHTML = `<div class="goal-item">ยังไม่มีเป้าหมายเลย 🥺 เพิ่มอันแรกได้เลยน้า</div>`;
-    return;
-  }
-
-  // render พร้อมข้อมูล “ยังขาดอีกเท่าไหร่”
-  for (const g of goals){
-    const saved = await getSavedSum(g.id);
-    const target = Number(g.target_amount || 0);
-    const remain = Math.max(0, target - saved);
-
-    const el = document.createElement("div");
-    el.className = "goal-item";
-    el.innerHTML = `
-      <div class="goal-top">
-        <div class="goal-title">${escapeHtml(g.title)}</div>
-        ${pill(g.status)}
-      </div>
-
-      <div class="goal-meta">
-        <div>🎯 เป้าหมาย: <b>${fmtMoney(target)}</b> บาท</div>
-        <div>💰 ออมแล้ว: <b>${fmtMoney(saved)}</b> บาท</div>
-        <div>🧾 ยังขาดอีก: <b>${fmtMoney(remain)}</b> บาท</div>
-        <div>📅 กำหนด: <b>${escapeHtml(g.target_date)}</b></div>
-      </div>
-
-      ${g.note ? `<div style="margin-top:10px;color:rgba(26,37,47,.7);font-weight:700;">📝 ${escapeHtml(g.note)}</div>` : ""}
-
-      <div class="goal-actions">
-        <button class="btn btn-soft" data-act="success" data-id="${g.id}">ติ๊ก “สำเร็จ” ✅</button>
-        <button class="btn btn-soft" data-act="failed" data-id="${g.id}">ติ๊ก “ไม่สำเร็จ” 🥺</button>
-        <button class="btn btn-soft" data-act="ongoing" data-id="${g.id}">กลับเป็น “กำลังทำ” 💗</button>
-      </div>
-    `;
-    ui.list.appendChild(el);
-  }
+  goals = data || [];
+  render();
 }
 
-async function createGoal(){
-  const me = await getMe();
-  if (!me){
-    setMsg("ยังไม่ได้ล็อกอิน", false);
+function openAdd(){
+  ui.gTitle.value = "";
+  ui.gType.value = "general";
+  ui.gDue.value = "";
+  ui.gTarget.value = "";
+  ui.gNoteShort.value = "";
+  ui.gNote.value = "";
+  moneyRowToggle();
+  msg(ui.addMsg, "");
+  ui.addModal.classList.add("show");
+}
+
+window.closeAdd = () => ui.addModal.classList.remove("show");
+window.closeDetail = () => ui.detailModal.classList.remove("show");
+
+async function addGoal(){
+  const title = (ui.gTitle.value || "").trim();
+  const goal_type = ui.gType.value;
+  const due_date = ui.gDue.value || null;
+
+  const note = (ui.gNote.value || "").trim() || (ui.gNoteShort.value || "").trim() || null;
+
+  if (!title){
+    msg(ui.addMsg, "กรอกชื่อเป้าหมายก่อนน้า 💗", "err");
     return;
   }
 
-  const title = (ui.title.value || "").trim();
-  const target_amount = Number(ui.target.value || 0);
-  const target_date = ui.date.value;
-  const note = (ui.note.value || "").trim();
-
-  if (!title) return setMsg("กรอกชื่อเป้าหมายก่อนน้า", false);
-  if (!target_date) return setMsg("เลือกวันครบกำหนดก่อนน้า", false);
-
-  ui.btnCreate.disabled = true;
-  setMsg("กำลังบันทึก...", true);
-
-  // 1) insert goals
-  const { data: g, error: e1 } = await supabase
-    .from("goals")
-    .insert([{ title, target_amount, target_date, note }])
-    .select()
-    .single();
-
-  if (e1){
-    ui.btnCreate.disabled = false;
-    return setMsg("บันทึกไม่สำเร็จ: " + e1.message, false);
+  let target_amount = null;
+  if (goal_type === "money"){
+    const t = ui.gTarget.value;
+    if (t !== "" && t != null) target_amount = Number(t);
+    // เป้าหมายการเงิน “ไม่บังคับจำนวนเงิน” ตามที่บอก
+    // (ถ้าไม่กรอก target_amount ก็ยังสร้าง goal ได้)
   }
 
-  // 2) ให้ goal นี้มีเจ้าของร่วม 2 คนเสมอ:
-  // - วิธีง่ายสุดตอนนี้: ใส่ “คนที่ล็อกอิน” เป็น member ก่อน
-  // - อีกคน เราจะเติมทีหลังจากอีเมล/ชื่อ (เดี๋ยวค่อยผูก role/คู่จริง)
-  await supabase.from("goal_members").insert([
-    { goal_id: g.id, user_id: me.id, display_name: me.email || "me" },
-  ]);
+  ui.btnAddSave.disabled = true;
+  ui.btnAddSave.textContent = "กำลังบันทึก...";
 
-  ui.btnCreate.disabled = false;
-  ui.title.value = "";
-  ui.target.value = "";
-  ui.date.value = "";
-  ui.note.value = "";
+  const payload = {
+    title,
+    goal_type,
+    due_date,
+    target_amount,
+    note,
+    status: "in_progress",
+    owner_id: session.user.id,
+  };
 
-  setMsg("เพิ่ม Goal แล้ว 💗", true);
-  await loadGoals();
+  const { error } = await supabase.from("goals").insert(payload);
+
+  ui.btnAddSave.disabled = false;
+  ui.btnAddSave.textContent = "บันทึก";
+
+  if (error){
+    msg(ui.addMsg, "บันทึกไม่สำเร็จ: " + error.message, "err");
+    return;
+  }
+
+  msg(ui.addMsg, "บันทึกแล้ว 💗", "ok");
+  setTimeout(() => {
+    closeAdd();
+    loadGoals();
+  }, 350);
 }
 
-async function setStatus(goalId, status){
+function openDetail(id){
+  selectedGoal = goals.find(g => String(g.id) === String(id));
+  if (!selectedGoal) return;
+
+  ui.dTitle.textContent = selectedGoal.title || "รายละเอียด Goal";
+  ui.dNote.textContent = selectedGoal.note ? `📝 ${selectedGoal.note}` : "📝 ไม่มีโน้ต";
+
+  const due = selectedGoal.due_date ? selectedGoal.due_date : "ไม่กำหนดวัน";
+  const t = typeText(selectedGoal);
+
+  const moneyMeta = (selectedGoal.goal_type === "money" && selectedGoal.target_amount != null)
+    ? `<span>🎯 เป้า: ${fmt(selectedGoal.target_amount)} บาท</span>`
+    : "";
+
+  ui.dMeta.innerHTML = `
+    <span>🧸 ประเภท: ${t}</span>
+    <span>📅 กำหนด: ${due}</span>
+    ${moneyMeta}
+  `;
+
+  selectedStatus = selectedGoal.status || "in_progress";
+  syncStatusButtons();
+
+  msg(ui.detailMsg, "");
+  ui.detailModal.classList.add("show");
+}
+
+function syncStatusButtons(){
+  ["in_progress","success","failed"].forEach(k => {
+    const b = document.getElementById("st_"+k);
+    if (!b) return;
+    b.classList.toggle("active", selectedStatus === k);
+  });
+}
+
+window.setStatus = (st) => {
+  selectedStatus = st;
+  syncStatusButtons();
+};
+
+async function saveStatus(){
+  if (!selectedGoal) return;
+
+  ui.btnDetailSave.disabled = true;
+  ui.btnDetailSave.textContent = "กำลังบันทึก...";
+
   const { error } = await supabase
     .from("goals")
-    .update({ status })
-    .eq("id", goalId);
+    .update({ status: selectedStatus })
+    .eq("id", selectedGoal.id);
 
-  if (error) return setMsg("อัปเดตไม่สำเร็จ: " + error.message, false);
+  ui.btnDetailSave.disabled = false;
+  ui.btnDetailSave.textContent = "บันทึกสถานะ";
 
-  setMsg("อัปเดตสถานะแล้ว ✨", true);
+  if (error){
+    msg(ui.detailMsg, "บันทึกสถานะไม่สำเร็จ: " + error.message, "err");
+    return;
+  }
+
+  msg(ui.detailMsg, "บันทึกแล้ว 💗", "ok");
+  setTimeout(() => {
+    closeDetail();
+    loadGoals();
+  }, 300);
+}
+
+function wire(){
+  ui.btnOpenAdd.addEventListener("click", openAdd);
+  ui.gType.addEventListener("change", moneyRowToggle);
+  ui.btnAddSave.addEventListener("click", addGoal);
+  ui.btnDetailSave.addEventListener("click", saveStatus);
+
+  // close on outside click
+  ui.addModal.addEventListener("click", (e) => {
+    if (e.target === ui.addModal) closeAdd();
+  });
+  ui.detailModal.addEventListener("click", (e) => {
+    if (e.target === ui.detailModal) closeDetail();
+  });
+}
+
+(async function init(){
+  const ok = await requireLogin();
+  if (!ok) return;
+  wire();
+  moneyRowToggle();
   await loadGoals();
-}
-
-function escapeHtml(s){
-  return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-// events
-ui.btnCreate.addEventListener("click", createGoal);
-
-ui.list.addEventListener("click", (e) => {
-  const btn = e.target.closest("button[data-act]");
-  if (!btn) return;
-  const act = btn.getAttribute("data-act");
-  const id = btn.getAttribute("data-id");
-  if (!id) return;
-  setStatus(id, act);
-});
-
-// init
-loadGoals();
+})();
