@@ -45,23 +45,16 @@ function mountNavbar(){
 }
 
 function wirePageTransitions(){
-  // Fade-in on load
   requestAnimationFrame(() => document.body.classList.remove("is-leaving"));
 
-  // Intercept internal navigations
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a");
     if (!a) return;
 
     const href = a.getAttribute("href") || "";
-    const isSameHost =
-      !href.startsWith("http") &&
-      !href.startsWith("mailto:") &&
-      !href.startsWith("#");
-
+    const isSameHost = !href.startsWith("http") && !href.startsWith("mailto:") && !href.startsWith("#");
     if (!isSameHost) return;
 
-    // allow new tab
     if (a.target === "_blank" || e.metaKey || e.ctrlKey) return;
 
     e.preventDefault();
@@ -70,13 +63,26 @@ function wirePageTransitions(){
   });
 }
 
+function ensureTopSafeSpace(){
+  // กัน navbar fixed บังหัวข้อทุกหน้า (ยกเว้นหน้า gate)
+  const isGate = document.body.getAttribute("data-page") === "gate";
+  if (isGate) return;
+
+  if (!document.body.classList.contains("page")){
+    document.body.classList.add("page");
+  }
+
+  // ใส่ padding-top แบบ inline กัน theme.css เดิมไม่ครอบ
+  document.body.style.paddingTop = "110px";
+}
+
 function bootstrap(){
   ensureFadeLayer();
 
-  // Skip navbar on gate page
   const isGate = document.body.getAttribute("data-page") === "gate";
   if (!isGate) mountNavbar();
 
+  ensureTopSafeSpace();
   wirePageTransitions();
 }
 
