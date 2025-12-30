@@ -7,669 +7,279 @@
 
   <link rel="stylesheet" href="assets/theme.css">
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <meta property="og:title" content="Our Day 💗">
-  <meta property="og:description" content="หมูอ้วน × หมูจิ๋ว">
-  <meta property="og:image" content="assets/og.png">
-  <meta property="og:type" content="website">
   <meta name="theme-color" content="#ff5e9a">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body{
-      min-height:100vh;
-      font-family:Poppins, sans-serif;
-      background: linear-gradient(135deg, #ffe6ee 0%, #fff0f7 50%, #ffe6ee 100%);
-      padding:120px 20px 40px;
+    body{ font-family:Poppins,sans-serif; background: linear-gradient(135deg,#ffe6ee 0%,#fff0f7 50%,#ffe6ee 100%); min-height:100vh; padding:20px; }
+    body.page{ padding-top:110px; }
+
+    .wrap{ width:min(980px, 100%); margin: 0 auto; position:relative; z-index: 5; }
+
+    .h1{ text-align:center; font-size: 2.6rem; font-weight: 900; color:#ff6b95; text-shadow:0 2px 15px rgba(255,107,149,.2); margin-top: 6px; }
+    .sub{ text-align:center; color:#ff8ab9; font-weight:800; margin-top: 8px; }
+
+    .topbar{
+      margin: 22px 0 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
     }
 
-    .wrap{ max-width: 1050px; margin: 0 auto; }
-
-    .page-head{
-      display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
-      margin-bottom: 16px;
-    }
-    .h1{
-      font-size: 2.1rem;
-      color:#ff6b95;
-      font-weight: 800;
-      text-shadow: 0 10px 30px rgba(255,107,149,.20);
-      line-height: 1.1;
-    }
-    .sub{
-      margin-top: 6px;
-      color: rgba(255,94,154,.65);
-      font-weight: 700;
-      font-size: .95rem;
+    .btnPlus{
+      width: 44px; height: 44px;
+      border-radius: 16px;
+      border: 2px solid rgba(255,107,149,.18);
+      background: rgba(255,107,149,.08);
+      color:#ff5e9a;
+      font-weight: 900;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size: 22px;
     }
 
-    .btn-small{
-      border:none; cursor:pointer;
-      border-radius: 999px;
+    .hint{
+      color:#ff8ab9;
+      font-weight:800;
+      background: rgba(255,255,255,.6);
+      border: 2px solid rgba(255,107,149,.12);
       padding: 10px 14px;
-      font-weight: 800;
-      background: linear-gradient(135deg,#ff5e9a,#ff8ab9);
-      color:#fff;
-      box-shadow: 0 14px 35px rgba(255,107,149,.25);
-      transition:.18s ease;
+      border-radius: 18px;
     }
-    .btn-small:hover{ transform: translateY(-2px); box-shadow: 0 18px 45px rgba(255,107,149,.32); }
 
     .grid{
       display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 16px;
+      grid-template-columns: 1fr;
+      gap: 14px;
     }
 
     .card{
-      grid-column: span 6;
-      background: rgba(255,255,255,.88);
-      border: 1px solid rgba(255,107,149,.16);
+      background: rgba(255,255,255,.92);
+      border: 2px solid rgba(255,107,149,.12);
       border-radius: 26px;
-      padding: 18px 18px 16px;
-      box-shadow: 0 18px 60px rgba(255,107,149,.16);
-      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(255,107,149,.14);
+      padding: 16px 16px;
       cursor:pointer;
-      transition:.18s ease;
-      position:relative;
-      overflow:hidden;
+      transition:.2s;
     }
-    .card:hover{ transform: translateY(-4px); box-shadow: 0 22px 70px rgba(255,107,149,.22); }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 25px 70px rgba(255,107,149,.18); }
 
-    .pill{
-      position:absolute;
-      top:14px; right:14px;
-      padding: 7px 10px;
+    .row1{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+    .title{ font-weight: 900; color:#ff6b95; font-size: 1.08rem; }
+    .badge{
+      padding: 6px 10px;
       border-radius: 999px;
-      font-weight: 800;
-      font-size: .78rem;
-      border: 1px solid rgba(255,107,149,.20);
-      background: rgba(255,107,149,.10);
-      color:#ff5e9a;
-    }
-    .pill.ok{ background: rgba(46, 204, 113, .12); border-color: rgba(46,204,113,.25); color: rgba(30,140,80,1); }
-    .pill.fail{ background: rgba(255,71,87,.10); border-color: rgba(255,71,87,.20); color: rgba(255,71,87,1); }
-
-    .title{
+      border: 2px solid rgba(255,107,149,.18);
       font-weight: 900;
-      color:#ff5e9a;
-      font-size: 1.15rem;
-      margin-bottom: 8px;
-      padding-right: 88px;
-    }
-
-    .meta{
-      display:flex; flex-wrap:wrap; gap:10px;
-      color: rgba(26,37,47,.65);
-      font-weight: 700;
-      font-size: .9rem;
-    }
-
-    .tag{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 16px;
+      font-size: .82rem;
+      color:#ff6b95;
       background: rgba(255,107,149,.08);
-      border: 1px solid rgba(255,107,149,.14);
+      white-space:nowrap;
     }
-    .tag b{ color:#ff5e9a; }
+    .meta{ margin-top: 10px; display:flex; gap: 12px; flex-wrap:wrap; color:#777; font-weight:800; }
+    .meta span{ background: rgba(255,107,149,.06); border: 2px solid rgba(255,107,149,.10); padding: 8px 10px; border-radius: 16px; }
 
-    .note{
-      margin-top: 12px;
-      color: rgba(26,37,47,.65);
-      font-weight: 600;
-      line-height: 1.35;
-      min-height: 20px;
-    }
-
-    .progress{
-      margin-top: 14px;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,107,149,.10);
-      border: 1px solid rgba(255,107,149,.14);
-      overflow:hidden;
-    }
-    .bar{
-      height:100%;
-      width:0%;
-      border-radius:999px;
-      background: linear-gradient(90deg, #ff5e9a, #ff8ab9, #ffd1e3);
-      transition:.25s ease;
-    }
+    .note{ margin-top: 10px; color:#7b7b7b; font-weight:700; }
 
     /* Modal */
-    .overlay{
-      position: fixed; inset:0;
-      background: rgba(0,0,0,.45);
-      display:none;
-      align-items:center; justify-content:center;
-      padding: 22px;
-      z-index: 9999;
-    }
-    .overlay.show{ display:flex; }
-
-    .modal{
-      width: min(720px, 100%);
-      background: rgba(255,255,255,.95);
+    .modal{ display:none; position:fixed; inset:0; background: rgba(0,0,0,.45); z-index: 3000; padding: 18px; }
+    .modal.show{ display:flex; align-items:center; justify-content:center; }
+    .modalBox{
+      width:min(760px, 96vw);
+      background:#fff;
       border-radius: 28px;
-      border: 1px solid rgba(255,107,149,.18);
-      box-shadow: 0 30px 90px rgba(0,0,0,.35);
+      border: 2px solid rgba(255,107,149,.14);
+      box-shadow: 0 25px 80px rgba(0,0,0,.25);
       padding: 18px;
-      backdrop-filter: blur(18px);
-      animation: pop .18s ease;
     }
-    @keyframes pop{ from{ transform: translateY(12px) scale(.98); opacity:0; } to { transform:none; opacity:1; } }
-
-    .modal-head{
-      display:flex; justify-content:space-between; align-items:center; gap:12px;
-      padding: 4px 4px 10px;
-    }
-    .modal-head h3{
-      margin:0;
-      font-size: 1.25rem;
-      color:#ff5e9a;
-      font-weight: 900;
-    }
-    .x{
-      width: 44px; height:44px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,107,149,.20);
+    .mHead{ display:flex; align-items:center; justify-content:space-between; gap: 10px; margin-bottom: 10px; }
+    .mTitle{ font-weight:900; color:#ff6b95; font-size: 1.15rem; }
+    .xbtn{
+      width:44px; height:44px; border-radius: 16px;
+      border: 2px solid rgba(255,107,149,.18);
       background: rgba(255,107,149,.08);
-      cursor:pointer;
-      font-weight: 900;
-      color:#ff5e9a;
-      display:flex; align-items:center; justify-content:center;
+      color:#ff5e9a; font-weight:900; cursor:pointer;
+      font-size: 18px;
     }
 
-    .modal-body{ padding: 8px 6px 6px; }
-
-    .row3{
+    .formRow{
       display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .box{
-      background: rgba(255,107,149,.06);
-      border: 1px solid rgba(255,107,149,.14);
-      border-radius: 22px;
-      padding: 12px 12px;
-    }
-    .box .k{ color: rgba(255,94,154,.75); font-weight: 900; font-size: .82rem; }
-    .box .v{ margin-top: 6px; font-weight: 900; color: rgba(26,37,47,.85); }
-
-    .modal-note{
-      margin-top: 8px;
-      background: rgba(255,255,255,.8);
-      border: 1px solid rgba(255,107,149,.14);
-      border-radius: 20px;
-      padding: 12px;
-      color: rgba(26,37,47,.70);
-      font-weight: 650;
-      line-height: 1.4;
-      min-height: 44px;
-    }
-
-    .actions{
-      display:flex; flex-wrap:wrap; gap:10px;
-      margin-top: 14px;
-      justify-content: flex-end;
-    }
-    .btn{
-      border:none; cursor:pointer;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-weight: 900;
-      transition:.16s ease;
-    }
-    .btn-doing{ background: rgba(255,107,149,.10); color:#ff5e9a; border:1px solid rgba(255,107,149,.18); }
-    .btn-ok{ background: rgba(46,204,113,.14); color: rgba(30,140,80,1); border:1px solid rgba(46,204,113,.22); }
-    .btn-fail{ background: rgba(255,71,87,.12); color: rgba(255,71,87,1); border:1px solid rgba(255,71,87,.18); }
-    .btn:hover{ transform: translateY(-1px); }
-
-    /* Create Modal form */
-    .form{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1.2fr .8fr .8fr;
       gap: 12px;
       margin-top: 10px;
     }
-    .form .full{ grid-column: 1 / -1; }
-    .label{ color: rgba(255,94,154,.78); font-weight: 900; font-size:.85rem; margin-bottom: 6px; }
-    .input, .select, .textarea{
+    .formRow2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .lab{ font-weight:900; color:#ff6b95; margin-bottom:6px; display:block; }
+    .inp, .sel, .ta{
       width:100%;
-      border-radius: 18px;
-      border: 1px solid rgba(255,107,149,.18);
-      padding: 12px 12px;
-      font-family: inherit;
-      outline: none;
-      background: rgba(255,255,255,.9);
-      font-weight: 750;
-      color: rgba(26,37,47,.85);
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 2px solid rgba(255,107,149,.16);
+      outline:none;
+      font-family:inherit;
     }
-    .textarea{ min-height: 90px; resize: vertical; }
+    .ta{ min-height: 110px; resize: vertical; grid-column: 1 / -1; }
 
-    .hint{ color: rgba(26,37,47,.55); font-weight: 700; font-size: .85rem; margin-top: 6px; }
-
-    @media (max-width: 900px){
-      .card{ grid-column: span 12; }
-      .row3{ grid-template-columns: 1fr; }
-      .form{ grid-template-columns: 1fr; }
+    .miniHint{
+      margin-top: 6px;
+      color:#ff8ab9;
+      font-weight: 900;
+      font-size:.9rem;
     }
+
+    .actions{
+      display:flex;
+      justify-content:flex-end;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .btnSoft{
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 2px solid rgba(255,107,149,.20);
+      background: rgba(255,107,149,.08);
+      color:#ff6b95;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .btnSave{
+      padding: 12px 16px;
+      border-radius: 16px;
+      border:none;
+      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
+      color:#fff;
+      font-weight: 900;
+      cursor:pointer;
+    }
+
+    .statusRow{
+      display:flex; gap: 10px; flex-wrap:wrap;
+      margin-top: 10px;
+      justify-content:flex-start;
+    }
+    .statusBtn{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,107,149,.18);
+      background: rgba(255,107,149,.08);
+      color:#ff6b95;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .statusBtn.active{
+      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
+      color:#fff;
+      border-color:#ff5e9a;
+    }
+
+    .err{ color:#ff4757; font-weight:900; margin-top: 8px; }
+    .ok{ color:#2ecc71; font-weight:900; margin-top: 8px; }
   </style>
 </head>
 
-<body>
+<body class="page">
   <div id="appNav"></div>
   <div id="pageFade"></div>
 
   <div class="wrap">
-    <div class="page-head">
-      <div>
-        <div class="h1">Goals 💗</div>
-        <div class="sub">ดูเป้าหมายของเรา + กดการ์ดเพื่อดูรายละเอียด / ติ๊กสำเร็จ</div>
-      </div>
-      <button class="btn-small" id="btnOpenCreate">+ เพิ่ม Goal</button>
+    <div class="h1">Goals ✨</div>
+    <div class="sub">ดูเป้าหมายของเราทั้งคู่ 💗 (กดการ์ดเพื่อดูรายละเอียด & ติ๊กสถานะ)</div>
+
+    <div class="topbar">
+      <div class="hint">เป้าหมาย “ทั่วไป” จะไม่ถูกเอาไปเลือกออมใน Savings ✨</div>
+      <button class="btnPlus" id="btnOpenAdd" title="เพิ่ม Goal">+</button>
     </div>
 
     <div class="grid" id="goalsGrid"></div>
   </div>
 
+  <!-- Add Goal Modal -->
+  <div class="modal" id="addModal">
+    <div class="modalBox">
+      <div class="mHead">
+        <div class="mTitle">เพิ่ม Goal ใหม่ ✨</div>
+        <button class="xbtn" type="button" onclick="closeAdd()">✕</button>
+      </div>
+
+      <div class="formRow">
+        <div>
+          <label class="lab">ชื่อเป้าหมาย</label>
+          <input class="inp" id="gTitle" placeholder="เช่น ลดน้ำหนัก / เที่ยวด้วยกัน ✈️" />
+        </div>
+        <div>
+          <label class="lab">ประเภท</label>
+          <select class="sel" id="gType">
+            <option value="general">เป้าหมายทั่วไป</option>
+            <option value="money">เป้าหมายการเงิน</option>
+          </select>
+          <div class="miniHint" id="typeHint">ถ้าเลือก “ทั่วไป” → จะไม่ให้เอาไปเลือกออมใน Savings</div>
+        </div>
+        <div>
+          <label class="lab">วันครบกำหนด</label>
+          <input class="inp" id="gDue" type="date" />
+        </div>
+      </div>
+
+      <div class="formRow2" id="moneyRow" style="display:none;">
+        <div>
+          <label class="lab">ยอดเป้าหมาย (บาท)</label>
+          <input class="inp" id="gTarget" type="number" inputmode="numeric" placeholder="เช่น 50000" />
+        </div>
+        <div>
+          <label class="lab">หมายเหตุ</label>
+          <input class="inp" id="gNoteShort" placeholder="เช่น เก็บไว้ซื้อกล้อง 💗" />
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <label class="lab">โน้ต (ไม่บังคับ)</label>
+        <textarea class="ta" id="gNote" placeholder="เช่น อยากทำให้สำเร็จก่อนสิ้นปี 💗"></textarea>
+      </div>
+
+      <div id="addMsg"></div>
+
+      <div class="actions">
+        <button class="btnSoft" type="button" onclick="closeAdd()">ยกเลิก</button>
+        <button class="btnSave" type="button" id="btnAddSave">บันทึก</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Detail Modal -->
-  <div class="overlay" id="detailOverlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <h3 id="dTitle">Goal</h3>
-        <button class="x" id="btnCloseDetail">✕</button>
+  <div class="modal" id="detailModal">
+    <div class="modalBox">
+      <div class="mHead">
+        <div class="mTitle" id="dTitle">รายละเอียด Goal</div>
+        <button class="xbtn" type="button" onclick="closeDetail()">✕</button>
       </div>
-      <div class="modal-body">
-        <div class="row3">
-          <div class="box">
-            <div class="k">ประเภท</div>
-            <div class="v" id="dType">—</div>
-          </div>
-          <div class="box">
-            <div class="k">กำหนด</div>
-            <div class="v" id="dDue">—</div>
-          </div>
-          <div class="box">
-            <div class="k">สถานะ</div>
-            <div class="v" id="dStatus">—</div>
-          </div>
-        </div>
 
-        <div class="row3" id="moneyRow" style="display:none;">
-          <div class="box">
-            <div class="k">เป้าหมาย (บาท)</div>
-            <div class="v" id="dTarget">—</div>
-          </div>
-          <div class="box">
-            <div class="k">ออมแล้ว (บาท)</div>
-            <div class="v" id="dSaved">—</div>
-          </div>
-          <div class="box">
-            <div class="k">ยังขาด (บาท)</div>
-            <div class="v" id="dRemain">—</div>
-          </div>
-        </div>
+      <div class="meta" id="dMeta"></div>
+      <div class="note" id="dNote" style="margin-top:10px;"></div>
 
-        <div class="modal-note" id="dNote"></div>
+      <div style="margin-top:14px; font-weight:900; color:#ff6b95;">ติ๊กสถานะเป้าหมาย</div>
+      <div class="statusRow">
+        <button class="statusBtn" id="st_in_progress" onclick="setStatus('in_progress')">กำลังทำ 💗</button>
+        <button class="statusBtn" id="st_success" onclick="setStatus('success')">สำเร็จ ✅</button>
+        <button class="statusBtn" id="st_failed" onclick="setStatus('failed')">ไม่สำเร็จ 🥺</button>
+      </div>
 
-        <div class="actions">
-          <button class="btn btn-doing" id="btnSetDoing">กลับเป็น “กำลังทำ” 💗</button>
-          <button class="btn btn-fail" id="btnSetFail">ติ๊ก “ไม่สำเร็จ” 🥺</button>
-          <button class="btn btn-ok" id="btnSetOk">ติ๊ก “สำเร็จ” ✅</button>
-        </div>
+      <div id="detailMsg"></div>
+
+      <div class="actions">
+        <button class="btnSoft" type="button" onclick="closeDetail()">ปิด</button>
+        <button class="btnSave" type="button" id="btnDetailSave">บันทึกสถานะ</button>
       </div>
     </div>
   </div>
 
-  <!-- Create Modal -->
-  <div class="overlay" id="createOverlay" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <h3>เพิ่ม Goal ใหม่ ✨</h3>
-        <button class="x" id="btnCloseCreate">✕</button>
-      </div>
-
-      <div class="modal-body">
-        <div class="form">
-          <div class="full">
-            <div class="label">ชื่อเป้าหมาย</div>
-            <input class="input" id="cTitle" placeholder="เช่น เที่ยวญี่ปุ่นด้วยกัน ✈️">
-          </div>
-
-          <div>
-            <div class="label">ประเภท</div>
-            <select class="select" id="cType">
-              <option value="money">เป้าหมายการเงิน</option>
-              <option value="general">เป้าหมายทั่วไป</option>
-            </select>
-            <div class="hint">ถ้าเลือก “ทั่วไป” → จะไม่ให้เอาไปเลือกออมใน Savings</div>
-          </div>
-
-          <div>
-            <div class="label">วันครบกำหนด</div>
-            <input class="input" id="cDue" type="date">
-          </div>
-
-          <div id="targetWrap">
-            <div class="label">ยอดเป้าหมาย (บาท)</div>
-            <input class="input" id="cTarget" type="number" min="0" placeholder="เช่น 50000">
-          </div>
-
-          <div class="full">
-            <div class="label">โน้ต (ไม่บังคับ)</div>
-            <textarea class="textarea" id="cNote" placeholder="เช่น เก็บไว้ไปถ่ายรูปกับเบบี๋ 💗"></textarea>
-          </div>
-
-          <div class="full" style="display:flex;justify-content:flex-end;gap:10px;">
-            <button class="btn btn-doing" id="btnCreateCancel" type="button">ยกเลิก</button>
-            <button class="btn btn-ok" id="btnCreate" type="button">บันทึก</button>
-          </div>
-        </div>
-
-        <div id="createMsg" class="hint" style="margin-top:10px;color:rgba(255,71,87,.95);font-weight:900;"></div>
-      </div>
-    </div>
-  </div>
-
-  <script type="module">
-    import { supabase } from "./assets/supabase.js";
-
-    const $ = (id) => document.getElementById(id);
-
-    const goalsGrid = $("goalsGrid");
-
-    const detailOverlay = $("detailOverlay");
-    const createOverlay = $("createOverlay");
-
-    const btnOpenCreate = $("btnOpenCreate");
-    const btnCloseDetail = $("btnCloseDetail");
-    const btnCloseCreate = $("btnCloseCreate");
-    const btnCreateCancel = $("btnCreateCancel");
-
-    const cTitle = $("cTitle");
-    const cType  = $("cType");
-    const cDue   = $("cDue");
-    const cTarget= $("cTarget");
-    const cNote  = $("cNote");
-    const targetWrap = $("targetWrap");
-    const createMsg = $("createMsg");
-
-    const dTitle = $("dTitle");
-    const dType = $("dType");
-    const dDue = $("dDue");
-    const dStatus = $("dStatus");
-    const dNote = $("dNote");
-    const moneyRow = $("moneyRow");
-    const dTarget = $("dTarget");
-    const dSaved = $("dSaved");
-    const dRemain= $("dRemain");
-
-    const btnSetDoing = $("btnSetDoing");
-    const btnSetFail  = $("btnSetFail");
-    const btnSetOk    = $("btnSetOk");
-
-    let goals = [];
-    let selectedGoal = null;
-    let goalSavedMap = new Map(); // goalId -> saved sum
-
-    function money(n){
-      const x = Number(n || 0);
-      return x.toLocaleString("th-TH");
-    }
-    function dateNice(d){
-      if (!d) return "—";
-      const dt = new Date(d);
-      if (Number.isNaN(dt.getTime())) return String(d);
-      return dt.toLocaleDateString("th-TH", { year:"numeric", month:"short", day:"2-digit" });
-    }
-    function pillClass(status){
-      if (status === "success") return "pill ok";
-      if (status === "fail") return "pill fail";
-      return "pill";
-    }
-    function statusText(status){
-      if (status === "success") return "สำเร็จ ✅";
-      if (status === "fail") return "ไม่สำเร็จ 🥺";
-      return "กำลังทำ 💗";
-    }
-    function typeText(t){
-      return t === "money" ? "เป้าหมายการเงิน" : "เป้าหมายทั่วไป";
-    }
-
-    function openOverlay(el){ el.classList.add("show"); el.setAttribute("aria-hidden","false"); }
-    function closeOverlay(el){ el.classList.remove("show"); el.setAttribute("aria-hidden","true"); }
-
-    function wireTypeToggle(){
-      const t = cType.value;
-      targetWrap.style.display = (t === "money") ? "block" : "none";
-    }
-
-    async function requireSession(){
-      const { data } = await supabase.auth.getSession();
-      if (!data.session){
-        window.location.href = "index.html";
-        return null;
-      }
-      return data.session;
-    }
-
-    async function loadGoals(){
-      // goals
-      const { data: g, error: ge } = await supabase
-        .from("goals")
-        .select("*")
-        .order("due_date", { ascending: true, nullsFirst: false })
-        .order("created_at", { ascending: false });
-
-      if (ge) throw ge;
-      goals = g || [];
-
-      // savings sums by goal_id
-      const { data: sums, error: se } = await supabase
-        .from("savings")
-        .select("goal_id, amount");
-
-      if (se) throw se;
-
-      goalSavedMap = new Map();
-      (sums || []).forEach(r => {
-        const k = r.goal_id || null;
-        if (!k) return;
-        const prev = Number(goalSavedMap.get(k) || 0);
-        goalSavedMap.set(k, prev + Number(r.amount || 0));
-      });
-    }
-
-    function render(){
-      if (!goals.length){
-        goalsGrid.innerHTML = `
-          <div class="card" style="grid-column:1/-1;cursor:default;">
-            <div class="title">ยังไม่มี Goals</div>
-            <div class="note">กดปุ่ม <b>+ เพิ่ม Goal</b> มุมขวาบนได้เลยนะ 💗</div>
-          </div>
-        `;
-        return;
-      }
-
-      goalsGrid.innerHTML = goals.map(g => {
-        const status = g.status || "doing";
-        const type = g.type || "money";
-        const saved = Number(goalSavedMap.get(g.id) || 0);
-        const target = Number(g.target_amount || 0);
-        const hasMoney = type === "money" && target > 0;
-
-        const remain = hasMoney ? Math.max(0, target - saved) : 0;
-        const pct = hasMoney ? Math.min(100, (saved / target) * 100) : 0;
-
-        return `
-          <div class="card" data-id="${g.id}">
-            <div class="${pillClass(status)}">${statusText(status)}</div>
-            <div class="title">${escapeHtml(g.title || "Goal")}</div>
-
-            <div class="meta">
-              <span class="tag">🧩 <b>${typeText(type)}</b></span>
-              <span class="tag">📅 <b>${dateNice(g.due_date)}</b></span>
-              ${hasMoney ? `<span class="tag">💰 <b>${money(saved)}</b> / ${money(target)}</span>` : ``}
-              ${hasMoney ? `<span class="tag">🧾 <b>ขาด</b> ${money(remain)}</span>` : ``}
-            </div>
-
-            <div class="note">${escapeHtml(g.note || "")}</div>
-
-            ${hasMoney ? `
-              <div class="progress"><div class="bar" style="width:${pct.toFixed(1)}%"></div></div>
-            ` : ``}
-          </div>
-        `;
-      }).join("");
-
-      goalsGrid.querySelectorAll(".card[data-id]").forEach(el => {
-        el.addEventListener("click", () => {
-          const id = el.getAttribute("data-id");
-          const g = goals.find(x => x.id === id);
-          if (g) openGoalDetail(g);
-        });
-      });
-    }
-
-    function escapeHtml(str){
-      return String(str || "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    function openGoalDetail(g){
-      selectedGoal = g;
-
-      const type = g.type || "money";
-      const status = g.status || "doing";
-
-      dTitle.textContent = g.title || "Goal";
-      dType.textContent = typeText(type);
-      dDue.textContent  = dateNice(g.due_date);
-      dStatus.textContent = statusText(status);
-      dNote.textContent = g.note || "—";
-
-      const target = Number(g.target_amount || 0);
-      const saved  = Number(goalSavedMap.get(g.id) || 0);
-      const hasMoney = (type === "money" && target > 0);
-
-      if (hasMoney){
-        moneyRow.style.display = "grid";
-        dTarget.textContent = money(target);
-        dSaved.textContent  = money(saved);
-        dRemain.textContent = money(Math.max(0, target - saved));
-      } else {
-        moneyRow.style.display = "none";
-      }
-
-      openOverlay(detailOverlay);
-    }
-
-    async function setStatus(next){
-      if (!selectedGoal) return;
-      const { error } = await supabase.from("goals")
-        .update({ status: next })
-        .eq("id", selectedGoal.id);
-
-      if (error) {
-        alert("อัปเดตไม่สำเร็จ: " + error.message);
-        return;
-      }
-      closeOverlay(detailOverlay);
-      await boot();
-    }
-
-    async function createGoal(){
-      createMsg.textContent = "";
-      const title = (cTitle.value || "").trim();
-      const type = cType.value;
-      const due = cDue.value || null;
-      const note = (cNote.value || "").trim() || null;
-
-      let target_amount = null;
-      if (type === "money"){
-        const t = Number(cTarget.value || 0);
-        target_amount = (t > 0) ? t : null;
-      }
-
-      if (!title){
-        createMsg.textContent = "กรอกชื่อเป้าหมายก่อนน้า 💗";
-        return;
-      }
-
-      const payload = {
-        title,
-        type,
-        due_date: due,
-        target_amount,
-        note,
-        status: "doing",
-      };
-
-      const { error } = await supabase.from("goals").insert(payload);
-      if (error){
-        createMsg.textContent = "บันทึกไม่สำเร็จ: " + error.message;
-        return;
-      }
-
-      // reset
-      cTitle.value = "";
-      cDue.value = "";
-      cTarget.value = "";
-      cNote.value = "";
-      cType.value = "money";
-      wireTypeToggle();
-
-      closeOverlay(createOverlay);
-      await boot();
-    }
-
-    function wire(){
-      btnOpenCreate.addEventListener("click", () => openOverlay(createOverlay));
-      btnCloseDetail.addEventListener("click", () => closeOverlay(detailOverlay));
-      btnCloseCreate.addEventListener("click", () => closeOverlay(createOverlay));
-      btnCreateCancel.addEventListener("click", () => closeOverlay(createOverlay));
-
-      $("btnCreate").addEventListener("click", createGoal);
-
-      cType.addEventListener("change", wireTypeToggle);
-      wireTypeToggle();
-
-      btnSetDoing.addEventListener("click", () => setStatus("doing"));
-      btnSetFail.addEventListener("click", () => setStatus("fail"));
-      btnSetOk.addEventListener("click", () => setStatus("success"));
-
-      window.addEventListener("click", (e) => {
-        if (e.target === detailOverlay) closeOverlay(detailOverlay);
-        if (e.target === createOverlay) closeOverlay(createOverlay);
-      });
-
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape"){
-          closeOverlay(detailOverlay);
-          closeOverlay(createOverlay);
-        }
-      });
-    }
-
-    async function boot(){
-      const session = await requireSession();
-      if (!session) return;
-
-      await loadGoals();
-      render();
-    }
-
-    wire();
-    boot();
-  </script>
-
+  <script type="module" src="assets/goals.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
