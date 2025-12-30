@@ -184,3 +184,102 @@ body.is-leaving #pageFade{ opacity:1; }
   .container{ padding-top: calc(var(--nav-h) + 24px); }
   .nav-links a{ padding:9px 10px; font-size:.95rem; }
 }
+
+/* =========================
+   WATER CIRCLE (sweet wave)
+========================= */
+.water-wrap{
+  width: 240px;
+  height: 240px;
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px auto 18px;
+  border: 2px solid rgba(255,94,154,.18);
+  background: rgba(255,255,255,.9);
+  box-shadow: 0 18px 50px rgba(255,107,149,.18);
+}
+
+.water-fill{
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  height: 50%;
+  background: linear-gradient(180deg,
+    rgba(255,138,185,.95) 0%,
+    rgba(255,94,154,.92) 55%,
+    rgba(255,64,132,.92) 100%);
+  filter: saturate(1.15);
+}
+
+/* wave layers */
+.water-fill::before,
+.water-fill::after{
+  content:"";
+  position:absolute;
+  left:-35%;
+  top:-28px;
+  width: 170%;
+  height: 70px;
+  background: radial-gradient(circle at 30% 40%,
+    rgba(255,255,255,.45), rgba(255,255,255,0) 55%);
+  opacity:.55;
+  border-radius: 50%;
+  animation: waveMove 6.8s ease-in-out infinite;
+}
+
+.water-fill::after{
+  top:-36px;
+  opacity:.35;
+  animation: waveMove2 8.6s ease-in-out infinite;
+}
+
+@keyframes waveMove{
+  0%,100%{ transform: translateX(0) translateY(0) rotate(0deg); }
+  50%{ transform: translateX(-18px) translateY(5px) rotate(0.5deg); }
+}
+@keyframes waveMove2{
+  0%,100%{ transform: translateX(0) translateY(0) rotate(0deg); }
+  50%{ transform: translateX(22px) translateY(7px) rotate(-0.5deg); }
+}
+
+/* soft shimmer */
+.water-shine{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 35% 25%, rgba(255,255,255,.55), rgba(255,255,255,0) 45%),
+    radial-gradient(circle at 70% 70%, rgba(255,255,255,.18), rgba(255,255,255,0) 55%);
+  pointer-events:none;
+}
+
+/* center text */
+.water-center{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding: 14px;
+  z-index: 2;
+}
+
+.water-center .label{
+  font-weight:900;
+  color: rgba(255,94,154,.88);
+}
+.water-center .value{
+  font-weight:900;
+  font-size: 34px;
+  color: rgba(26,37,47,.80);
+  margin-top: 4px;
+}
+
+/* fix navbar overlap: add top padding to pages that have navbar */
+.page-wrap{
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding-top: 92px; /* กันโดน navbar บัง */
+}
