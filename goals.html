@@ -1,285 +1,110 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Goals ✨</title>
-
-  <link rel="stylesheet" href="assets/theme.css">
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <meta name="theme-color" content="#ff5e9a">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body{ font-family:Poppins,sans-serif; background: linear-gradient(135deg,#ffe6ee 0%,#fff0f7 50%,#ffe6ee 100%); min-height:100vh; padding:20px; }
-    body.page{ padding-top:110px; }
-
-    .wrap{ width:min(980px, 100%); margin: 0 auto; position:relative; z-index: 5; }
-
-    .h1{ text-align:center; font-size: 2.6rem; font-weight: 900; color:#ff6b95; text-shadow:0 2px 15px rgba(255,107,149,.2); margin-top: 6px; }
-    .sub{ text-align:center; color:#ff8ab9; font-weight:800; margin-top: 8px; }
-
-    .topbar{
-      margin: 22px 0 16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .btnPlus{
-      width: 44px; height: 44px;
-      border-radius: 16px;
-      border: 2px solid rgba(255,107,149,.18);
-      background: rgba(255,107,149,.08);
-      color:#ff5e9a;
-      font-weight: 900;
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      font-size: 22px;
-    }
-
-    .hint{
-      color:#ff8ab9;
-      font-weight:800;
-      background: rgba(255,255,255,.6);
-      border: 2px solid rgba(255,107,149,.12);
-      padding: 10px 14px;
-      border-radius: 18px;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-    }
-
-    .card{
-      background: rgba(255,255,255,.92);
-      border: 2px solid rgba(255,107,149,.12);
-      border-radius: 26px;
-      box-shadow: 0 20px 60px rgba(255,107,149,.14);
-      padding: 16px 16px;
-      cursor:pointer;
-      transition:.2s;
-    }
-    .card:hover{ transform: translateY(-2px); box-shadow: 0 25px 70px rgba(255,107,149,.18); }
-
-    .row1{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
-    .title{ font-weight: 900; color:#ff6b95; font-size: 1.08rem; }
-    .badge{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,107,149,.18);
-      font-weight: 900;
-      font-size: .82rem;
-      color:#ff6b95;
-      background: rgba(255,107,149,.08);
-      white-space:nowrap;
-    }
-    .meta{ margin-top: 10px; display:flex; gap: 12px; flex-wrap:wrap; color:#777; font-weight:800; }
-    .meta span{ background: rgba(255,107,149,.06); border: 2px solid rgba(255,107,149,.10); padding: 8px 10px; border-radius: 16px; }
-
-    .note{ margin-top: 10px; color:#7b7b7b; font-weight:700; }
-
-    /* Modal */
-    .modal{ display:none; position:fixed; inset:0; background: rgba(0,0,0,.45); z-index: 3000; padding: 18px; }
-    .modal.show{ display:flex; align-items:center; justify-content:center; }
-    .modalBox{
-      width:min(760px, 96vw);
-      background:#fff;
-      border-radius: 28px;
-      border: 2px solid rgba(255,107,149,.14);
-      box-shadow: 0 25px 80px rgba(0,0,0,.25);
-      padding: 18px;
-    }
-    .mHead{ display:flex; align-items:center; justify-content:space-between; gap: 10px; margin-bottom: 10px; }
-    .mTitle{ font-weight:900; color:#ff6b95; font-size: 1.15rem; }
-    .xbtn{
-      width:44px; height:44px; border-radius: 16px;
-      border: 2px solid rgba(255,107,149,.18);
-      background: rgba(255,107,149,.08);
-      color:#ff5e9a; font-weight:900; cursor:pointer;
-      font-size: 18px;
-    }
-
-    .formRow{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr .8fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .formRow2{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .lab{ font-weight:900; color:#ff6b95; margin-bottom:6px; display:block; }
-    .inp, .sel, .ta{
-      width:100%;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 2px solid rgba(255,107,149,.16);
-      outline:none;
-      font-family:inherit;
-    }
-    .ta{ min-height: 110px; resize: vertical; grid-column: 1 / -1; }
-
-    .miniHint{
-      margin-top: 6px;
-      color:#ff8ab9;
-      font-weight: 900;
-      font-size:.9rem;
-    }
-
-    .actions{
-      display:flex;
-      justify-content:flex-end;
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .btnSoft{
-      padding: 12px 16px;
-      border-radius: 16px;
-      border: 2px solid rgba(255,107,149,.20);
-      background: rgba(255,107,149,.08);
-      color:#ff6b95;
-      font-weight: 900;
-      cursor:pointer;
-    }
-    .btnSave{
-      padding: 12px 16px;
-      border-radius: 16px;
-      border:none;
-      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
-      color:#fff;
-      font-weight: 900;
-      cursor:pointer;
-    }
-
-    .statusRow{
-      display:flex; gap: 10px; flex-wrap:wrap;
-      margin-top: 10px;
-      justify-content:flex-start;
-    }
-    .statusBtn{
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 2px solid rgba(255,107,149,.18);
-      background: rgba(255,107,149,.08);
-      color:#ff6b95;
-      font-weight: 900;
-      cursor:pointer;
-    }
-    .statusBtn.active{
-      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
-      color:#fff;
-      border-color:#ff5e9a;
-    }
-
-    .err{ color:#ff4757; font-weight:900; margin-top: 8px; }
-    .ok{ color:#2ecc71; font-weight:900; margin-top: 8px; }
-  </style>
+  <link rel="stylesheet" href="assets/theme.css"/>
+  <link rel="icon" type="image/png" href="assets/favicon.png"/>
+  <meta name="theme-color" content="#ff5e9a"/>
 </head>
-
-<body class="page">
+<body>
   <div id="appNav"></div>
   <div id="pageFade"></div>
 
-  <div class="wrap">
-    <div class="h1">Goals ✨</div>
-    <div class="sub">ดูเป้าหมายของเราทั้งคู่ 💗 (กดการ์ดเพื่อดูรายละเอียด & ติ๊กสถานะ)</div>
+  <div class="page-wrap">
+    <div class="glass" style="border-radius:30px; padding:26px; box-shadow:0 18px 60px rgba(255,107,149,.18);">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div>
+          <h1 style="margin:0; color:var(--pink-1); font-weight:900;">Goals 💗</h1>
+          <div style="color:rgba(255,94,154,.70); font-weight:700; margin-top:4px;">
+            ดูเป้าหมายของเราสองคน + ติ๊กสำเร็จ/ไม่สำเร็จได้ในรายละเอียด
+          </div>
+        </div>
+        <button class="btn btn-primary" id="btnAddGoal">+ เพิ่ม Goals</button>
+      </div>
 
-    <div class="topbar">
-      <div class="hint">เป้าหมาย “ทั่วไป” จะไม่ถูกเอาไปเลือกออมใน Savings ✨</div>
-      <button class="btnPlus" id="btnOpenAdd" title="เพิ่ม Goal">+</button>
+      <div id="goalList" style="margin-top:18px; display:flex; flex-direction:column; gap:12px;"></div>
+
+      <div id="goalEmpty" style="display:none; text-align:center; padding:46px 10px; color:rgba(255,94,154,.7); font-weight:800;">
+        ยังไม่มี Goal เลยนะ ✨
+      </div>
     </div>
-
-    <div class="grid" id="goalsGrid"></div>
   </div>
 
   <!-- Add Goal Modal -->
-  <div class="modal" id="addModal">
-    <div class="modalBox">
-      <div class="mHead">
-        <div class="mTitle">เพิ่ม Goal ใหม่ ✨</div>
-        <button class="xbtn" type="button" onclick="closeAdd()">✕</button>
+  <div id="addGoalModal" class="modal">
+    <div class="modal-content" style="max-width:720px;">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <div class="modal-header">เพิ่ม Goal ใหม่ ✨</div>
+        <button class="btn btn-soft" id="closeAddGoal" style="min-width:auto; padding:10px 14px;">✕</button>
       </div>
 
-      <div class="formRow">
-        <div>
-          <label class="lab">ชื่อเป้าหมาย</label>
-          <input class="inp" id="gTitle" placeholder="เช่น ลดน้ำหนัก / เที่ยวด้วยกัน ✈️" />
-        </div>
-        <div>
-          <label class="lab">ประเภท</label>
-          <select class="sel" id="gType">
-            <option value="general">เป้าหมายทั่วไป</option>
-            <option value="money">เป้าหมายการเงิน</option>
+      <div class="form-group">
+        <label class="form-label">ชื่อเป้าหมาย <span class="required">*</span></label>
+        <input id="gTitle" class="form-input" placeholder="เช่น เที่ยวญี่ปุ่นด้วยกัน ✈️">
+      </div>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div class="form-group" style="flex:1; min-width:220px;">
+          <label class="form-label">ประเภท</label>
+          <select id="gType" class="form-input">
+            <option value="general">เป้าหมายทั่วไป (ไม่ออมเงิน)</option>
+            <option value="money">เป้าหมายการเงิน (เข้า Savings)</option>
           </select>
-          <div class="miniHint" id="typeHint">ถ้าเลือก “ทั่วไป” → จะไม่ให้เอาไปเลือกออมใน Savings</div>
+          <div style="margin-top:6px; color:rgba(26,37,47,.55); font-weight:700; font-size:12px;">
+            ถ้าเลือก “ทั่วไป” → จะไม่ให้เลือกออมใน Savings
+          </div>
         </div>
-        <div>
-          <label class="lab">วันครบกำหนด</label>
-          <input class="inp" id="gDue" type="date" />
-        </div>
-      </div>
 
-      <div class="formRow2" id="moneyRow" style="display:none;">
-        <div>
-          <label class="lab">ยอดเป้าหมาย (บาท)</label>
-          <input class="inp" id="gTarget" type="number" inputmode="numeric" placeholder="เช่น 50000" />
-        </div>
-        <div>
-          <label class="lab">หมายเหตุ</label>
-          <input class="inp" id="gNoteShort" placeholder="เช่น เก็บไว้ซื้อกล้อง 💗" />
+        <div class="form-group" style="flex:1; min-width:220px;">
+          <label class="form-label">วันครบกำหนด</label>
+          <input id="gDate" type="date" class="form-input">
         </div>
       </div>
 
-      <div style="margin-top:12px;">
-        <label class="lab">โน้ต (ไม่บังคับ)</label>
-        <textarea class="ta" id="gNote" placeholder="เช่น อยากทำให้สำเร็จก่อนสิ้นปี 💗"></textarea>
+      <div id="moneyFields" style="display:none;">
+        <div class="form-group">
+          <label class="form-label">ยอดเป้าหมาย (บาท)</label>
+          <input id="gAmount" type="number" class="form-input" placeholder="เช่น 50000">
+        </div>
       </div>
 
-      <div id="addMsg"></div>
-
-      <div class="actions">
-        <button class="btnSoft" type="button" onclick="closeAdd()">ยกเลิก</button>
-        <button class="btnSave" type="button" id="btnAddSave">บันทึก</button>
+      <div class="form-group">
+        <label class="form-label">โน้ต (ไม่บังคับ)</label>
+        <textarea id="gNote" class="form-textarea" placeholder="เช่น เก็บไว้ไปถ่ายรูปด้วยกัน 💗"></textarea>
       </div>
+
+      <div class="modal-buttons">
+        <button class="btn-submit" id="saveGoal">บันทึก</button>
+        <button class="btn-cancel" id="cancelGoal">ยกเลิก</button>
+      </div>
+
+      <div id="goalMsg" class="status"></div>
     </div>
   </div>
 
-  <!-- Detail Modal -->
-  <div class="modal" id="detailModal">
-    <div class="modalBox">
-      <div class="mHead">
-        <div class="mTitle" id="dTitle">รายละเอียด Goal</div>
-        <button class="xbtn" type="button" onclick="closeDetail()">✕</button>
+  <!-- Goal Detail Modal -->
+  <div id="detailModal" class="modal">
+    <div class="modal-content" style="max-width:720px;">
+      <div style="display:flex; align-items:center; justify-content:space-between;">
+        <div class="modal-header">รายละเอียด Goal 💗</div>
+        <button class="btn btn-soft" id="closeDetail" style="min-width:auto; padding:10px 14px;">✕</button>
       </div>
 
-      <div class="meta" id="dMeta"></div>
-      <div class="note" id="dNote" style="margin-top:10px;"></div>
+      <div id="detailBody"></div>
 
-      <div style="margin-top:14px; font-weight:900; color:#ff6b95;">ติ๊กสถานะเป้าหมาย</div>
-      <div class="statusRow">
-        <button class="statusBtn" id="st_in_progress" onclick="setStatus('in_progress')">กำลังทำ 💗</button>
-        <button class="statusBtn" id="st_success" onclick="setStatus('success')">สำเร็จ ✅</button>
-        <button class="statusBtn" id="st_failed" onclick="setStatus('failed')">ไม่สำเร็จ 🥺</button>
+      <div class="modal-buttons">
+        <button class="btn-submit" id="btnDone" style="background:linear-gradient(135deg,#7ddf9b,#3bcf7d);">ติ๊ก “สำเร็จ” ✅</button>
+        <button class="btn-submit" id="btnFail" style="background:linear-gradient(135deg,#ff8aa8,#ff5e9a);">ติ๊ก “ไม่สำเร็จ” 🥺</button>
+        <button class="btn-cancel" id="btnBack">กลับเป็น “กำลังทำ” 💗</button>
       </div>
 
-      <div id="detailMsg"></div>
-
-      <div class="actions">
-        <button class="btnSoft" type="button" onclick="closeDetail()">ปิด</button>
-        <button class="btnSave" type="button" id="btnDetailSave">บันทึกสถานะ</button>
-      </div>
+      <div id="detailMsg" class="status"></div>
     </div>
   </div>
 
-  <script type="module" src="assets/goals.js"></script>
   <script src="assets/app.js"></script>
+  <script type="module" src="assets/goals-page.js"></script>
 </body>
 </html>
