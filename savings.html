@@ -7,638 +7,276 @@
 
   <link rel="stylesheet" href="assets/theme.css">
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <meta property="og:title" content="Our Day 💗">
-  <meta property="og:description" content="หมูอ้วน × หมูจิ๋ว">
-  <meta property="og:image" content="assets/og.png">
-  <meta property="og:type" content="website">
   <meta name="theme-color" content="#ff5e9a">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body{
-      min-height:100vh;
-      font-family:Poppins, sans-serif;
-      background: linear-gradient(135deg, #ffe6ee 0%, #fff0f7 50%, #ffe6ee 100%);
-      padding:120px 20px 40px;
-    }
-    .wrap{ max-width: 1100px; margin: 0 auto; }
+    body{ font-family:Poppins,sans-serif; background: linear-gradient(135deg,#ffe6ee 0%,#fff0f7 50%,#ffe6ee 100%); min-height:100vh; padding:20px; }
+    body.page{ padding-top:110px; }
 
-    .head{
-      text-align:center;
-      margin-bottom: 14px;
-    }
-    .h1{
-      font-size: 2.1rem;
-      color:#ff6b95;
-      font-weight: 900;
-      text-shadow: 0 18px 50px rgba(255,107,149,.18);
-      line-height:1.15;
-    }
-    .sub{
-      margin-top: 8px;
-      color: rgba(255,94,154,.65);
-      font-weight: 800;
-      font-size: .95rem;
-    }
+    .wrap{ width:min(1100px, 100%); margin: 0 auto; position:relative; z-index: 5; }
+    .h1{ text-align:center; font-size: 2.6rem; font-weight: 900; color:#ff6b95; text-shadow:0 2px 15px rgba(255,107,149,.2); margin-top: 6px; }
+    .sub{ text-align:center; color:#ff8ab9; font-weight:800; margin-top: 8px; }
 
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 14px;
+      gap: 18px;
+      margin-top: 22px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
     }
 
     .card{
-      background: rgba(255,255,255,.88);
-      border: 1px solid rgba(255,107,149,.16);
+      background: rgba(255,255,255,.92);
+      border: 2px solid rgba(255,107,149,.12);
       border-radius: 28px;
+      box-shadow: 0 20px 60px rgba(255,107,149,.14);
       padding: 18px;
-      box-shadow: 0 18px 60px rgba(255,107,149,.16);
-      backdrop-filter: blur(16px);
+    }
+    .cardTitle{
+      font-weight: 900;
+      color:#ff6b95;
+      font-size: 1.1rem;
+      margin-bottom: 12px;
     }
 
-    /* ===== Total + Water ===== */
-    .totalRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 14px;
-      flex-wrap:wrap;
-    }
-
-    .waterWrap{
-      width: 190px;
-      height: 190px;
+    /* Water Circle */
+    .circleWrap{ display:flex; justify-content:center; margin-top: 6px; }
+    .waterCircle{
+      width: 240px;
+      height: 240px;
       border-radius: 999px;
-      position: relative;
+      position:relative;
       overflow:hidden;
-      border: 2px solid rgba(255,107,149,.22);
-      background: rgba(255,255,255,.55);
-      box-shadow: 0 30px 80px rgba(255,107,149,.22);
-      flex: 0 0 auto;
+      border: 2px solid rgba(255,107,149,.18);
+      background: rgba(255,255,255,.9);
+      box-shadow: 0 20px 60px rgba(255,107,149,.18);
     }
-    .waterFill{
+    .water{
       position:absolute;
       left:0; right:0;
-      bottom:0;
-      height: 40%;
-      background: linear-gradient(180deg, #ff5e9a 0%, #ff8ab9 55%, #ffd1e3 100%);
-      filter: saturate(1.15);
-      transition: height .35s ease;
+      height: 55%;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(255,94,154,.35), rgba(255,94,154,.75));
+      transform: translateY(40%);
+      transition: transform .5s ease;
     }
-
-    /* wave overlay */
-    .wave{
+    .water::before,
+    .water::after{
+      content:"";
       position:absolute;
-      left:-20%;
-      width: 140%;
-      height: 38px;
-      top:-18px;
-      background-repeat: repeat-x;
-      opacity:.85;
-      animation: waveMove 3.2s linear infinite;
-      mix-blend-mode: screen;
-      filter: blur(.1px);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'%3E%3Cpath d='M0 20 C 15 6, 30 6, 45 20 C 60 34, 75 34, 90 20 C 105 6, 120 6, 135 20 L 135 40 L 0 40 Z' fill='rgba(255,255,255,0.70)'/%3E%3C/svg%3E");
+      left:-35%;
+      width: 170%;
+      height: 170%;
+      top:-120%;
+      border-radius: 40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,0) 55%);
+      opacity: .65;
+      animation: wave 7s linear infinite;
     }
-    .wave2{
-      opacity:.55;
-      top:-12px;
-      animation-duration: 2.4s;
-      filter: blur(.2px);
+    .water::after{
+      opacity: .40;
+      animation-duration: 10s;
+      animation-direction: reverse;
+      top:-118%;
     }
-    @keyframes waveMove{
-      from { transform: translateX(0); }
-      to   { transform: translateX(-120px); }
+    @keyframes wave{
+      0%{ transform: rotate(0deg) translateY(0); }
+      100%{ transform: rotate(360deg) translateY(0); }
     }
 
-    /* shimmer ripple */
-    .ripple{
-      position:absolute;
-      inset:-30%;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 55%);
-      animation: ripple 3.6s ease-in-out infinite;
-      opacity: .9;
-      pointer-events:none;
-    }
-    @keyframes ripple{
-      0%{ transform: scale(.98); opacity:.75; }
-      50%{ transform: scale(1.04); opacity:1; }
-      100%{ transform: scale(.98); opacity:.75; }
-    }
-
-    .waterText{
+    .circleText{
       position:absolute;
       inset:0;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
+      gap: 6px;
       text-align:center;
-      padding: 18px;
-      z-index: 5;
+      z-index: 2;
+      padding: 10px;
     }
-    .waterText .k{
-      font-weight: 900;
-      color: rgba(255,94,154,.75);
-      font-size: .88rem;
-      margin-bottom: 6px;
-      text-shadow: 0 10px 25px rgba(255,107,149,.12);
-    }
-    .waterText .v{
-      font-weight: 900;
-      color: rgba(26,37,47,.85);
-      font-size: 1.35rem;
-      line-height:1.1;
-    }
-    .waterText .small{
-      margin-top: 6px;
-      font-weight: 800;
-      color: rgba(26,37,47,.55);
-      font-size: .86rem;
-    }
+    .circleLabel{ font-weight: 900; color:#ff6b95; }
+    .circleValue{ font-weight: 900; font-size: 2rem; color:#333; }
+    .circleSmall{ font-weight: 900; color:#ff8ab9; font-size: .95rem; }
 
-    .sumBoxes{
-      flex: 1 1 auto;
+    .stats{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 12px;
-      min-width: 320px;
+      margin-top: 16px;
     }
-    .mini{
-      background: rgba(255,107,149,.06);
-      border: 1px solid rgba(255,107,149,.14);
-      border-radius: 22px;
-      padding: 12px;
-    }
-    .mini .k{ color: rgba(255,94,154,.76); font-weight: 900; font-size: .82rem; }
-    .mini .v{ margin-top: 6px; font-weight: 900; color: rgba(26,37,47,.85); font-size: 1.05rem; }
+    @media (max-width: 520px){ .stats{ grid-template-columns: 1fr; } }
 
-    /* ===== Add saving ===== */
+    .stat{
+      border-radius: 20px;
+      border: 2px solid rgba(255,107,149,.12);
+      background: rgba(255,107,149,.06);
+      padding: 12px;
+      color:#444;
+      font-weight: 900;
+      min-height: 76px;
+    }
+    .stat .k{ color:#ff6b95; }
+    .stat .v{ margin-top: 8px; font-size: 1.2rem; }
+
+    /* Form */
+    .tabs{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom: 12px; }
+    .tabBtn{
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,107,149,.18);
+      background: rgba(255,107,149,.08);
+      color:#ff6b95;
+      font-weight: 900;
+      cursor:pointer;
+    }
+    .tabBtn.active{
+      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
+      color:#fff;
+      border-color:#ff5e9a;
+    }
+
     .row{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin-top: 10px;
     }
-    .label{ color: rgba(255,94,154,.78); font-weight: 900; font-size:.85rem; margin-bottom: 6px; }
-    .input, .select{
+    @media (max-width: 520px){ .row{ grid-template-columns: 1fr; } }
+
+    .lab{ font-weight:900; color:#ff6b95; margin-bottom:6px; display:block; }
+    .inp, .sel{
       width:100%;
-      border-radius: 18px;
-      border: 1px solid rgba(255,107,149,.18);
-      padding: 12px 12px;
-      font-family: inherit;
-      outline: none;
-      background: rgba(255,255,255,.9);
-      font-weight: 750;
-      color: rgba(26,37,47,.85);
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 2px solid rgba(255,107,149,.16);
+      outline:none;
+      font-family:inherit;
     }
+    .noteInp{ margin-top: 10px; }
 
-    .seg{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top: 6px;
-    }
-    .chip{
-      cursor:pointer;
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-weight: 900;
-      border: 1px solid rgba(255,107,149,.18);
-      background: rgba(255,107,149,.08);
-      color:#ff5e9a;
-      transition:.16s ease;
-    }
-    .chip.active{
-      background: linear-gradient(135deg,#ff5e9a,#ff8ab9);
-      color:#fff;
-      box-shadow: 0 14px 35px rgba(255,107,149,.22);
-      border-color: rgba(255,107,149,.28);
-    }
-
-    .btn{
-      border:none; cursor:pointer;
-      border-radius: 999px;
-      padding: 11px 14px;
-      font-weight: 900;
-      background: linear-gradient(135deg,#ff5e9a,#ff8ab9);
-      color:#fff;
-      box-shadow: 0 14px 35px rgba(255,107,149,.22);
-      transition:.18s ease;
-      margin-top: 10px;
-    }
-    .btn:hover{ transform: translateY(-2px); box-shadow: 0 18px 45px rgba(255,107,149,.30); }
-
-    .msg{
-      margin-top: 10px;
-      font-weight: 900;
-      color: rgba(255,71,87,.95);
-      min-height: 20px;
-    }
-    .msg.ok{ color: rgba(46,204,113,.95); }
-
-    /* list */
-    .list{
+    .btnSave{
       margin-top: 12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      max-height: 340px;
-      overflow:auto;
-      padding-right: 4px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border:none;
+      background: linear-gradient(135deg,#ff5e9a 0%,#ff8ab9 100%);
+      color:#fff;
+      font-weight: 900;
+      cursor:pointer;
+      width: fit-content;
+    }
+
+    .msg{ margin-top: 10px; font-weight: 900; }
+    .msg.ok{ color:#2ecc71; }
+    .msg.err{ color:#ff4757; }
+
+    .list{
+      margin-top: 14px;
+      border-top: 2px dashed rgba(255,107,149,.18);
+      padding-top: 12px;
     }
     .item{
-      display:flex;
-      justify-content:space-between;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 22px;
-      border: 1px solid rgba(255,107,149,.14);
-      background: rgba(255,255,255,.75);
-    }
-    .item .left{
-      display:flex; flex-direction:column; gap:4px;
-      min-width: 0;
-    }
-    .item .t{
+      display:flex; justify-content:space-between; gap: 10px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      border: 2px solid rgba(255,107,149,.12);
+      background: rgba(255,255,255,.7);
+      margin-top: 10px;
       font-weight: 900;
-      color: rgba(26,37,47,.85);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width: 520px;
+      color:#444;
     }
-    .item .s{
-      font-weight: 800;
-      color: rgba(26,37,47,.55);
-      font-size: .86rem;
-    }
-    .item .amt{
-      font-weight: 900;
-      color:#ff5e9a;
-      white-space:nowrap;
-    }
-
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
-      .sumBoxes{ grid-template-columns: 1fr; min-width: unset; }
-      .row{ grid-template-columns: 1fr; }
-      .waterWrap{ width: 170px; height:170px; }
-      body{ padding-top: 110px; }
-    }
+    .item small{ color:#ff8ab9; font-weight:900; }
   </style>
 </head>
 
-<body>
+<body class="page">
   <div id="appNav"></div>
   <div id="pageFade"></div>
 
   <div class="wrap">
-    <div class="head">
-      <div class="h1">Savings 💗</div>
-      <div class="sub">เงินออมรวม = นับรวมทุก Goal + เติมน้ำตามจำนวนเงินออม ✨</div>
-    </div>
+    <div class="h1">Savings 💗</div>
+    <div class="sub">เงินออมรวม = นับรวมทุก Goal + ออมรวม ✨</div>
 
     <div class="grid">
-      <!-- TOTAL -->
+      <!-- LEFT: Total -->
       <div class="card">
-        <div class="totalRow">
-          <div class="waterWrap" aria-label="total savings water">
-            <div class="ripple"></div>
-            <div class="waterFill" id="waterFill">
-              <div class="wave"></div>
-              <div class="wave wave2"></div>
-            </div>
-            <div class="waterText">
-              <div class="k">เงินออมรวม</div>
-              <div class="v" id="totalSaved">0 ฿</div>
-              <div class="small" id="totalHint">กำลังโหลด…</div>
+        <div class="cardTitle">เงินออมรวม</div>
+
+        <div class="circleWrap">
+          <div class="waterCircle">
+            <div class="water" id="water"></div>
+            <div class="circleText">
+              <div class="circleLabel">เงินออมรวม</div>
+              <div class="circleValue" id="totalSaved">0 ฿</div>
+              <div class="circleSmall" id="totalHint">กำลังโหลด...</div>
             </div>
           </div>
+        </div>
 
-          <div class="sumBoxes">
-            <div class="mini">
-              <div class="k">รวมเป้าหมายการเงิน</div>
-              <div class="v" id="moneyGoalsCount">0</div>
-            </div>
-            <div class="mini">
-              <div class="k">ยอดเป้าหมายรวม (บาท)</div>
-              <div class="v" id="totalTarget">0</div>
-            </div>
-            <div class="mini">
-              <div class="k">ยังขาดรวม (บาท)</div>
-              <div class="v" id="totalRemain">0</div>
-            </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="k">รวมเป้าหมายการเงิน</div>
+            <div class="v" id="sumTargets">0</div>
+          </div>
+          <div class="stat">
+            <div class="k">ยอดเป้าหมายรวม (บาท)</div>
+            <div class="v" id="sumTargetAmount">0</div>
+          </div>
+          <div class="stat">
+            <div class="k">ยังขาดรวม (บาท)</div>
+            <div class="v" id="sumRemaining">0</div>
           </div>
         </div>
       </div>
 
-      <!-- ADD SAVING + LIST -->
+      <!-- RIGHT: Add Saving -->
       <div class="card">
-        <div style="font-weight:900;color:#ff5e9a;font-size:1.05rem;margin-bottom:6px;">
-          เพิ่มรายการออม 💗
+        <div class="cardTitle">เพิ่มรายการออม 💗</div>
+
+        <div class="tabs">
+          <button class="tabBtn active" id="tabTotal" type="button">ออมรวม</button>
+          <button class="tabBtn" id="tabGoal" type="button">ออมเข้า Goal (การเงิน)</button>
         </div>
 
-        <div class="seg" role="tablist" aria-label="saving mode">
-          <button class="chip active" id="chipTotal" type="button">ออมรวม</button>
-          <button class="chip" id="chipGoal" type="button">ออมเข้า Goal (การเงิน)</button>
+        <div id="goalPicker" style="display:none;">
+          <label class="lab">เลือก Goal (เฉพาะการเงิน)</label>
+          <select class="sel" id="goalSelect"></select>
         </div>
 
-        <div class="row" style="margin-top:12px;">
+        <div class="row">
           <div>
-            <div class="label">จำนวนเงิน (บาท)</div>
-            <input class="input" id="amount" type="number" min="1" placeholder="เช่น 100">
+            <label class="lab">จำนวนเงิน (บาท)</label>
+            <input class="inp" id="amount" type="number" inputmode="numeric" placeholder="เช่น 100" />
           </div>
-
-          <div id="goalPick" style="display:none;">
-            <div class="label">เลือก Goal (เฉพาะแบบมีเงิน)</div>
-            <select class="select" id="goalSelect"></select>
-          </div>
-
           <div>
-            <div class="label">วันที่</div>
-            <input class="input" id="date" type="date">
-          </div>
-
-          <div>
-            <div class="label">โน้ต (ไม่บังคับ)</div>
-            <input class="input" id="note" placeholder="เช่น โอนเข้ากองกลาง 💗">
+            <label class="lab">วันที่</label>
+            <input class="inp" id="date" type="date" />
           </div>
         </div>
 
-        <button class="btn" id="btnAdd">+ บันทึก</button>
+        <div class="noteInp">
+          <label class="lab">โน้ต (ไม่บังคับ)</label>
+          <input class="inp" id="note" placeholder="เช่น โอนเข้ากองกลาง 💗" />
+        </div>
+
+        <button class="btnSave" id="btnSave" type="button">+ บันทึก</button>
         <div class="msg" id="msg"></div>
 
-        <div style="margin-top:14px;font-weight:900;color:rgba(255,94,154,.78);">
-          ประวัติการออมล่าสุด
+        <div class="list">
+          <div class="cardTitle" style="margin-bottom:6px;">ประวัติออมล่าสุด</div>
+          <div id="recentList"></div>
         </div>
-        <div class="list" id="list"></div>
       </div>
     </div>
   </div>
 
-  <script type="module">
-    import { supabase } from "./assets/supabase.js";
-
-    const $ = (id) => document.getElementById(id);
-
-    const chipTotal = $("chipTotal");
-    const chipGoal = $("chipGoal");
-    const goalPick = $("goalPick");
-    const goalSelect = $("goalSelect");
-
-    const amountEl = $("amount");
-    const dateEl = $("date");
-    const noteEl = $("note");
-    const btnAdd = $("btnAdd");
-    const msgEl = $("msg");
-
-    const listEl = $("list");
-
-    const totalSavedEl = $("totalSaved");
-    const totalHintEl = $("totalHint");
-    const moneyGoalsCountEl = $("moneyGoalsCount");
-    const totalTargetEl = $("totalTarget");
-    const totalRemainEl = $("totalRemain");
-    const waterFillEl = $("waterFill");
-
-    let mode = "total"; // total | goal
-    let goalsMoney = [];
-    let goalsAll = [];
-    let savings = [];
-
-    function money(n){
-      return Number(n || 0).toLocaleString("th-TH");
-    }
-    function todayISO(){
-      const d = new Date();
-      const z = new Date(d.getTime() - d.getTimezoneOffset()*60000);
-      return z.toISOString().slice(0,10);
-    }
-
-    function setMsg(text, ok=false){
-      msgEl.textContent = text || "";
-      msgEl.classList.toggle("ok", !!ok);
-    }
-
-    function setMode(next){
-      mode = next;
-      chipTotal.classList.toggle("active", mode==="total");
-      chipGoal.classList.toggle("active", mode==="goal");
-      goalPick.style.display = (mode==="goal") ? "block" : "none";
-    }
-
-    async function requireSession(){
-      const { data } = await supabase.auth.getSession();
-      if (!data.session){
-        window.location.href = "index.html";
-        return null;
-      }
-      return data.session;
-    }
-
-    async function loadGoals(){
-      const { data, error } = await supabase
-        .from("goals")
-        .select("*")
-        .order("due_date", { ascending: true, nullsFirst: false })
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-
-      goalsAll = data || [];
-      goalsMoney = goalsAll
-        .filter(g => (g.type || "money") === "money" && Number(g.target_amount || 0) > 0);
-
-      goalSelect.innerHTML = goalsMoney.length
-        ? goalsMoney.map(g => `<option value="${g.id}">${escapeHtml(g.title)} (${g.due_date || "ไม่กำหนด"})</option>`).join("")
-        : `<option value="">ยังไม่มี Goal แบบการเงิน</option>`;
-    }
-
-    async function loadSavings(){
-      const { data, error } = await supabase
-        .from("savings")
-        .select("*")
-        .order("date", { ascending: false })
-        .order("created_at", { ascending: false })
-        .limit(40);
-      if (error) throw error;
-      savings = data || [];
-    }
-
-    function sumAllSavings(){
-      return savings.reduce((acc, r) => acc + Number(r.amount || 0), 0);
-    }
-
-    function sumByGoal(goalId){
-      return savings
-        .filter(s => s.goal_id === goalId)
-        .reduce((acc, r) => acc + Number(r.amount || 0), 0);
-    }
-
-    function calcTotals(){
-      // รวมเป้าหมายเฉพาะ goalsMoney
-      const totalTarget = goalsMoney.reduce((acc, g) => acc + Number(g.target_amount || 0), 0);
-
-      // saved per goal money
-      const totalSavedForMoneyGoals = goalsMoney.reduce((acc, g) => acc + sumByGoal(g.id), 0);
-
-      // แต่ “เงินออมรวม” ต้องนับรวมทุก Goal / ทุกออม (ตามที่สั่ง)
-      const totalSavedAll = sumAllSavings();
-
-      // remain รวม (ใช้เฉพาะ goalsMoney)
-      const totalRemain = goalsMoney.reduce((acc, g) => {
-        const target = Number(g.target_amount || 0);
-        const saved = sumByGoal(g.id);
-        return acc + Math.max(0, target - saved);
-      }, 0);
-
-      return { totalSavedAll, totalTarget, totalRemain, totalSavedForMoneyGoals };
-    }
-
-    function setWaterBy(totalSavedAll, totalTarget){
-      // ใช้ totalTarget ของ “เป้าหมายการเงิน” เป็นฐานเติมน้ำ (ดู cute)
-      // ถ้ายังไม่มี target เลย → เติมน้ำตามสเต็ปน่ารัก
-      let pct = 0;
-      if (Number(totalTarget) > 0){
-        pct = Math.min(100, (Number(totalSavedAll) / Number(totalTarget)) * 100);
-      } else {
-        // ไม่มีเป้าหมายการเงิน → ให้เต็มแบบน่ารักตามสเต็ป
-        pct = Math.min(100, Math.log10(1 + Number(totalSavedAll)) * 35);
-      }
-
-      // กันต่ำสุดให้เห็นน้ำ
-      const h = Math.max(8, Math.min(100, pct));
-      waterFillEl.style.height = h.toFixed(1) + "%";
-
-      totalHintEl.textContent =
-        Number(totalTarget) > 0
-          ? `เติมน้ำ ${pct.toFixed(1)}% ของ “ยอดเป้าหมายการเงินรวม” ✨`
-          : `ยังไม่มีเป้าหมายการเงิน เลยโชว์น้ำตามยอดออมรวม 💗`;
-    }
-
-    function renderTotals(){
-      const { totalSavedAll, totalTarget, totalRemain } = calcTotals();
-
-      totalSavedEl.textContent = `${money(totalSavedAll)} ฿`;
-      moneyGoalsCountEl.textContent = `${goalsMoney.length}`;
-      totalTargetEl.textContent = money(totalTarget);
-      totalRemainEl.textContent = money(totalRemain);
-
-      setWaterBy(totalSavedAll, totalTarget);
-    }
-
-    function renderList(){
-      if (!savings.length){
-        listEl.innerHTML = `
-          <div class="item">
-            <div class="left">
-              <div class="t">ยังไม่มีรายการออม</div>
-              <div class="s">เริ่มบันทึกได้เลยน้า 💗</div>
-            </div>
-            <div class="amt">0 ฿</div>
-          </div>
-        `;
-        return;
-      }
-
-      const goalMap = new Map(goalsAll.map(g => [g.id, g.title]));
-      listEl.innerHTML = savings.map(s => {
-        const isTotal = !s.goal_id;
-        const goalName = isTotal ? "ออมรวม" : (goalMap.get(s.goal_id) || "Goal");
-        const date = s.date ? new Date(s.date).toLocaleDateString("th-TH", { year:"numeric", month:"short", day:"2-digit" }) : "—";
-        const note = s.note ? ` • ${escapeHtml(s.note)}` : "";
-        return `
-          <div class="item">
-            <div class="left">
-              <div class="t">${escapeHtml(goalName)}</div>
-              <div class="s">${date}${note}</div>
-            </div>
-            <div class="amt">+ ${money(s.amount)} ฿</div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    function escapeHtml(str){
-      return String(str || "")
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    async function addSaving(){
-      setMsg("");
-
-      const amt = Number(amountEl.value || 0);
-      const date = dateEl.value || todayISO();
-      const note = (noteEl.value || "").trim() || null;
-
-      if (!amt || amt <= 0){
-        setMsg("ใส่จำนวนเงินก่อนน้า 💗");
-        return;
-      }
-
-      let goal_id = null;
-      if (mode === "goal"){
-        const gid = goalSelect.value;
-        if (!gid){
-          setMsg("ยังไม่มี Goal แบบการเงินให้เลือก 🥺", false);
-          return;
-        }
-        goal_id = gid;
-      }
-
-      const payload = {
-        amount: amt,
-        date,
-        note,
-        goal_id, // null = ออมรวม
-      };
-
-      const { error } = await supabase.from("savings").insert(payload);
-      if (error){
-        setMsg("บันทึกไม่สำเร็จ: " + error.message);
-        return;
-      }
-
-      amountEl.value = "";
-      noteEl.value = "";
-      dateEl.value = todayISO();
-
-      setMsg("บันทึกแล้ว 💗", true);
-      await boot();
-    }
-
-    function wire(){
-      chipTotal.addEventListener("click", () => setMode("total"));
-      chipGoal.addEventListener("click", () => setMode("goal"));
-      btnAdd.addEventListener("click", addSaving);
-
-      dateEl.value = todayISO();
-      setMode("total");
-    }
-
-    async function boot(){
-      const session = await requireSession();
-      if (!session) return;
-
-      await loadGoals();
-      await loadSavings();
-      renderTotals();
-      renderList();
-
-      // ถ้าเลือกโหมด goal แต่ไม่มี goal money ให้กลับไป total
-      if (mode === "goal" && !goalsMoney.length){
-        setMode("total");
-      }
-    }
-
-    wire();
-    boot();
-  </script>
-
+  <script type="module" src="assets/savings.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
