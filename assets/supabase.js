@@ -1,8 +1,8 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 // ✅ ใส่ของจริงจาก Supabase Project Settings → API
-const SUPABASE_URL = "https://YOUR_PROJECT.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+export const SUPABASE_URL = "https://fmukqdezvgrtatvbyclx.supabase.co";
+export const SUPABASE_ANON_KEY = "sb_publishable_OoAcw3AXQiCMXqQHyC4y7Q_OI4jG6pI";
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
@@ -11,3 +11,7 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     detectSessionInUrl: true,
   },
 });
+
+
+
+
